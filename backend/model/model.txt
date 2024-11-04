@@ -1,0 +1,242 @@
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+/**
+ * Address Schema
+ */
+const addressSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  alternate_phone: {
+    type: String,
+    trim: true
+  },
+  pincode: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  state: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  city: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  building_name: {
+    type: String,
+    trim: true
+  },
+  road_name: {
+    type: String,
+    trim: true
+  },
+  is_default: {
+    type: Boolean,
+    default: false // Field to mark if the address is the default one
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+/**
+ * User Schema
+ */
+const userSchema = new Schema({
+    email: {
+      type: String,
+      trim: true
+    },
+    phone: {
+      country_code: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      number: {
+        type: String,
+        required: true,
+        trim: true
+      }
+    },
+    addresses: [addressSchema], // Array of addresses
+    otp_login: {
+      otp: {
+        type: String
+      },
+      otp_created_at: {
+        type: Date
+      },
+      otp_expires_at: {
+        type: Date
+      },
+      otp_attempts: {
+        type: Number,
+        default: 0
+      },
+      is_verified: {
+        type: Boolean,
+        default: false
+      },
+      last_login_at: {
+        type: Date
+      }
+    },
+    token: {
+      type: String,
+    },
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Cart'
+    },
+    wishlist: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Wishlist'
+    },
+    orders: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order'
+    }],
+
+  }, { timestamps: true });
+
+/**
+ * Wishlist Schema
+ */
+const wishlistSchema = new Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  items: [{
+    product_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    added_at: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now
+  }
+}, { timestamps: true });
+
+/**
+ * Cart Schema
+ */
+const cartSchema = new Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  items: [{
+    product_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      default: 1
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }],
+  total_price: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now
+  }
+}, { timestamps: true });
+
+// Middleware to calculate total price before saving
+cartSchema.pre('save', function (next) {
+  this.total_price = this.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  next();
+});
+
+/**
+ * Order Schema
+ */
+const orderSchema = new Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  items: [{
+    product_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }],
+  address: {
+    type: addressSchema, // Reference the address schema to store the shipping address
+    required: true
+  },
+  total_price: {
+    type: Number,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'shipped', 'delivered', 'cancelled'],
+    default: 'pending'
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now
+  }
+}, { timestamps: true });
+
+const Cart = mongoose.model('Cart', cartSchema);
+const Wishlist = mongoose.model('Wishlist', wishlistSchema);
+const Order = mongoose.model('Order', orderSchema);
+const User = mongoose.model('User', userSchema);
+
+/**
+ * Export Models
+ */
+export { User, Wishlist, Order, Cart };
