@@ -137,8 +137,9 @@ async function verifyOtp(req, res) {
 }
 
 async function updateToken(req, res) {
-  console.log("token route")
+ 
   const token = req.body.expoToken.data
+  console.log(token)
   const { userId } = req.user
 
   try {

@@ -20,7 +20,9 @@ export default function Main() {
 
   useEffect(() => {
     if (expoToken && isLoggedIn) {
+
       const updateUserToken = async () => {
+        console.log(Api.updateToken)
         try {
           await axios.post(
             Api.updateToken,

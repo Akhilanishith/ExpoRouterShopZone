@@ -1,37 +1,36 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text } from 'react-native'
-import { CustomButton, CustomInput } from '../../components/ActionComponents'
-import axios from 'axios'
-import Api from '../../service/Api'
-import { useRouter } from 'expo-router'
+import React, { useState } from 'react';
+import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text } from 'react-native';
+import { CustomButton, CustomInput } from '../../components/ActionComponents';
+import axios from 'axios';
+import Api from '../../service/Api';
+import { useRouter } from 'expo-router';
 
 export default function AuthScreen() {
-  const [number, setNumber] = useState("")
-  const [phoneSubmitLoading, setPhoneSubmitLoading] = useState(false)
-
-  const router = useRouter()
+  const [number, setNumber] = useState("");
+  const [phoneSubmitLoading, setPhoneSubmitLoading] = useState(false);
+  const router = useRouter();
 
   const handlePhoneSubmit = async () => {
     console.log("Starting phone submission..."); // Debug log
     setPhoneSubmitLoading(true);
-  
+
     try {
       if (number.length !== 10) {
         Alert.alert("Phone must be valid");
         setPhoneSubmitLoading(false);
         return;
       }
-  
+
       console.log("Sending request to:", Api.phoneValidation); // Log request URL
       const res = await axios.post(Api.phoneValidation, { number });
       console.log("API response:", res.data); // Check API response
-  
+
       if (res.data.success) {
         Alert.alert(res.data.message);
-        
+
         router.push({
           pathname: "AuthScreen/OtpVerificationScreen",
-          params: { number, emailEmpty: res.data.emailEmpty ,emailExists: res.data.emailExists},
+          params: { number, emailEmpty: res.data.emailEmpty, emailExists: res.data.emailExists },
         });
       } else {
         Alert.alert("Something went wrong");
@@ -42,7 +41,6 @@ export default function AuthScreen() {
       setPhoneSubmitLoading(false);
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -58,15 +56,14 @@ export default function AuthScreen() {
             style={styles.input}
           />
           {phoneSubmitLoading ? (
-            <ActivityIndicator size={40} color={"red"} style={styles.loader} />
+            <ActivityIndicator size="large" color="blue" style={styles.loader} />
           ) : (
-            <CustomButton title={"Submit"} onclick={handlePhoneSubmit} style={styles.button} />
-
+            <CustomButton title="Submit" onclick={handlePhoneSubmit} style={styles.button} />
           )}
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -74,20 +71,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f0f4f8', // Light grey/blue background for a modern look
     width: '100%',
     paddingHorizontal: 20,
   },
   transparentBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent white background
-    padding: 20,
-    borderRadius: 10,
-    width: '100%',
-    maxWidth: 400,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+    padding: 30,
+    borderRadius: 20, // Rounded look
+    width: '90%',
+    maxWidth: 400, // Limit width for larger screens
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 8, // Elevation for Android shadow
   },
   heading: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: '#333',
     marginBottom: 20,
     textAlign: 'center',
@@ -101,15 +104,19 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'web' ? 16 : 14,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: Platform.OS === 'web' ? 12 : 10,
+    borderRadius: 10, // Rounded input field
+    paddingHorizontal: 12,
+    paddingVertical: Platform.OS === 'web' ? 14 : 12,
+    backgroundColor: '#fff', // White background for input field
   },
   button: {
     width: '100%',
-    paddingVertical: Platform.OS === 'web' ? 12 : 10,
+    paddingVertical: Platform.OS === 'web' ? 14 : 12,
+    borderRadius: 10, // Rounded corners for button
+    backgroundColor: '#007bff', // Blue button color to match modern designs
+    alignItems: 'center',
   },
   loader: {
     marginTop: 20,
   },
-})
+});
