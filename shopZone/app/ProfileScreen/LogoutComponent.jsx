@@ -43,17 +43,12 @@ import { AuthContext } from '../../context/AuthContext';
 const LogoutComponent = () => {
   const { logout } = useContext(AuthContext);
 
-  const handleLogout = async () => {
-    await logout();
-  };
 
   return (
     <View style={styles.container}>
       <CustomButton 
         title="Logout" 
-        onclick={async () => {
-          await handleLogout();
-        }}
+        onclick={logout}
       />
       {/* Add the Link to navigate to the Home screen after logout */}
       
@@ -65,8 +60,8 @@ export default LogoutComponent;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    color: '#fff',
+    fontWeight: 'bold',
+    
   },
 });

@@ -1,66 +1,85 @@
 'use client'
 
-import React, { useState } from 'react'
-import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text } from 'react-native'
-import { CustomButton, CustomInput } from '../../components/ActionComponents'
-import axios from 'axios'
-import Api from '../../service/Api'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native'
 import { useRouter } from 'expo-router'
 
-export default function AuthScreen() {
+export default function Component() {
   const [number, setNumber] = useState("")
   const [phoneSubmitLoading, setPhoneSubmitLoading] = useState(false)
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
   const router = useRouter()
 
+  useEffect(() => {
+    const updateLayout = () => {
+      setScreenWidth(Dimensions.get('window').width)
+    }
+
+    Dimensions.addEventListener('change', updateLayout)
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout)
+    }
+  }, [])
+
   const handlePhoneSubmit = async () => {
-    console.log("Starting phone submission...")
     setPhoneSubmitLoading(true)
 
     try {
       if (number.length !== 10) {
         Alert.alert("Phone must be valid")
-        setPhoneSubmitLoading(false)
         return
       }
 
-      console.log("Sending request to:", Api.phoneValidation)
-      const res = await axios.post(Api.phoneValidation, { number })
-      console.log("API response:", res.data)
+      // Simulating API call
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      Alert.alert("OTP sent successfully")
 
-      if (res.data.success) {
-        Alert.alert(res.data.message)
-
-        router.push({
-          pathname: "AuthScreen/OtpVerificationScreen",
-          params: { number, emailEmpty: res.data.emailEmpty, emailExists: res.data.emailExists },
-        })
-      } else {
-        Alert.alert("Something went wrong")
-      }
+      router.push({
+        pathname: "AuthScreen/OtpVerificationScreen",
+        params: { number, emailEmpty: true, emailExists: false },
+      })
     } catch (error) {
       console.error("Error during submission:", error)
+      Alert.alert("Something went wrong")
     } finally {
       setPhoneSubmitLoading(false)
     }
   }
 
+  const isMobile = screenWidth < 768
+
   return (
     <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.heading}>Enter your phone number</Text>
-
-        <View style={styles.innerContainer}>
-          <CustomInput
+      <View style={[styles.cardContainer, isMobile && styles.cardContainerMobile]}>
+        <View style={[styles.leftContainer, isMobile && styles.leftContainerMobile]}>
+          <Text style={styles.heading}>Login</Text>
+          <Text style={styles.subheading}>Get access to your Orders, Wishlist and Recommendations</Text>
+        </View>
+        
+        <View style={[styles.rightContainer, isMobile && styles.rightContainerMobile]}>
+          <TextInput
             value={number}
             onChangeText={setNumber}
             keyboardType="numeric"
-            placeholder="Enter number"
+            placeholder="Enter Email/Mobile number"
             style={styles.input}
           />
+          <Text style={styles.termsText}>
+            By continuing, you agree to ShopZone's{' '}
+            <Text style={styles.linkText} onPress={() => Alert.alert('Terms of Use')}>
+              Terms of Use
+            </Text>{' '}
+            and{' '}
+            <Text style={styles.linkText} onPress={() => Alert.alert('Privacy Policy')}>
+              Privacy Policy
+            </Text>.
+          </Text>
           {phoneSubmitLoading ? (
-            <ActivityIndicator size="large" color="#007AFF" style={styles.loader} />
+            <ActivityIndicator size="large" color="#f4511e" style={styles.loader} />
           ) : (
-            <CustomButton title="Submit" onclick={handlePhoneSubmit} style={styles.button} />
+            <TouchableOpacity onPress={handlePhoneSubmit} style={styles.button}>
+              <Text style={styles.buttonText}>Request OTP</Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -71,56 +90,85 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
     alignItems: 'center',
-    backgroundColor: '#F0F4F8',
-    width: '100%',
+    justifyContent: 'center',
     padding: 20,
   },
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 30,
-    width: '100%',
-    maxWidth: 400,
-    alignItems: 'center',
+  cardContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowRadius: 4,
+    elevation: 3,
+    overflow: 'hidden',
+    height:Platform.OS === "web" ? '60%' : 400,
+  },
+  cardContainerMobile: {
+    flexDirection: 'column',
+    width: '100%',
+  },
+  leftContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f4511e',
+    justifyContent: 'center',
+  },
+  leftContainerMobile: {
+    width: '100%',
+  },
+  rightContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent:"center",
+  },
+  rightContainerMobile: {
+    width: '100%',
   },
   heading: {
     fontSize: 28,
-    fontWeight: '700',
-    color: '#333333',
-    marginBottom: 30,
-    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 10,
   },
-  innerContainer: {
-    width: '100%',
+  subheading: {
+    fontSize: 18,
+    color: '#ffffff',
   },
   input: {
     width: '100%',
-    height: 56,
-    borderWidth: 2,
-    borderColor: '#E0E0E0',
-    borderRadius: 12,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#CED0CE',
+    borderRadius: 4,
     paddingHorizontal: 16,
-    fontSize: 18,
+    fontSize: 16,
     backgroundColor: '#FFFFFF',
-    marginBottom: 24,
-    color: '#333333',
+    marginBottom: 20,
+  },
+  termsText: {
+    fontSize: 12,
+    color: '#878787',
+    marginBottom: 20,
+  },
+  linkText: {
+    color: '#2874f0',
   },
   button: {
-    width: '100%',
-    height: 56,
-    backgroundColor: '#007AFF',
-    borderRadius: 12,
-    justifyContent: 'center',
+    backgroundColor: '#fb641b',
+    paddingVertical: 12,
+    borderRadius: 4,
     alignItems: 'center',
   },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   loader: {
-    marginTop: 24,
+    marginTop: 10,
   },
 })

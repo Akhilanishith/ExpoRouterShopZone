@@ -102,11 +102,25 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  // bannerContainer: {
+  //   margin: 16,
+  //   borderRadius: 12,
+  //   overflow: 'hidden',
+  // },
   bannerContainer: {
-    margin: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
+    margin: 16,                     // Outer spacing around the container
+    borderRadius: 12,               // Softly rounded corners
+    overflow: 'hidden',             // Clips any overflow content
+    backgroundColor: '#f0f0f0',     // Light background to distinguish the container
+    borderWidth: 1,                 // Adds a border around the container
+    borderColor: '#ccc',            // Light gray color for the border
+    shadowColor: '#000',            // Adds a subtle shadow for depth
+    shadowOffset: { width: 0, height: 2 }, // Horizontal and vertical shadow offset
+    shadowOpacity: 0.3,             // Adjust shadow opacity for a soft effect
+    shadowRadius: 4,                // Makes shadow appear soft around the edges
+    padding: 16,                    // Internal padding for content inside the container
+},
+
   bannerImage: {
     width: '100%',
     height: 150,
@@ -123,11 +137,11 @@ const styles = StyleSheet.create({
   bannerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: 'red',
   },
   bannerSubtitle: {
     fontSize: 18,
-    color: '#fff',
+    color: 'red',
     marginBottom: 8,
   },
   shopNowButton: {
@@ -138,14 +152,30 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   shopNowText: {
-    color: '#fff',
+     color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
+  // categoriesContainer: {
+  //   flexDirection: 'row',
+  //   paddingHorizontal: 16,
+  //   marginBottom: 16,
+  // },
   categoriesContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
+    flexDirection: 'row',              // Align items horizontally in a row
+    paddingHorizontal: 16,             // Adds horizontal padding inside the container
+    marginBottom: 16,                  // Adds space below the container
+    backgroundColor: '#e0f7fa',        // Light teal background to make it visible
+    borderRadius: 8,                   // Rounds the corners slightly
+    borderWidth: 1,                    // Adds a border around the container
+    borderColor: '#b2ebf2',            // Soft matching border color
+    shadowColor: '#000',               // Adds shadow for depth
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset below the container
+    shadowOpacity: 0.3,                // Light shadow opacity
+    shadowRadius: 16,                   // Slightly soft shadow edges
+    paddingVertical: 8,                // Adds vertical padding for spacing
+}
+,
   categoryItem: {
     alignItems: 'center',
     marginRight: 16,
@@ -171,6 +201,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
+    color: 'pink',
     fontSize: 18,
     fontWeight: 'bold',
   },

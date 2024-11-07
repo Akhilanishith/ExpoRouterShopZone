@@ -137,16 +137,14 @@ async function verifyOtp(req, res) {
 }
 
 async function updateToken(req, res) {
- 
+  console.log(req.body.expoToken.data)
   const token = req.body.expoToken.data
-  console.log(token)
   const { userId } = req.user
 
   try {
     // Find the user and update the token field
     const updatedUser = await User.findByIdAndUpdate(userId, { token: token }, { new: true });
 
-    console.log(updatedUser)
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
