@@ -11,6 +11,8 @@ const Api = {
     checkRetailAndFoodVerificationStatus: server+"/global/checkRetailAndFoodVerificationStatus",
     brandCreatedBySeller : server+"/retail/brandCreatedBySeller",
     getSellerCreatedBrands : server+"/retail/getSellerCreatedBrands",
+    getAdminBrands : server+"/admin/getAdminBrands",
+    applyForAdminBrandApproval: server+"/retail/applyForAdminBrandApproval",
 
 
 

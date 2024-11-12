@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native'
 import { useRouter } from 'expo-router'
+import axios from 'axios'
+import Api from '../../service/Api'
 
 export default function Component() {
   const [number, setNumber] = useState("")
@@ -15,36 +17,41 @@ export default function Component() {
       setScreenWidth(Dimensions.get('window').width)
     }
 
-    Dimensions.addEventListener('change', updateLayout)
+    const dimensionListener = Dimensions.addEventListener('change', updateLayout)
+
     return () => {
-      Dimensions.removeEventListener('change', updateLayout)
+      dimensionListener?.remove() // Updated to remove the event listener correctly
     }
   }, [])
 
   const handlePhoneSubmit = async () => {
-    setPhoneSubmitLoading(true)
+    setPhoneSubmitLoading(true);
 
     try {
       if (number.length !== 10) {
-        Alert.alert("Phone must be valid")
-        return
+        Alert.alert("Phone must be valid");
+        setPhoneSubmitLoading(false);
+        return;
       }
 
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      Alert.alert("OTP sent successfully")
+      const res = await axios.post(Api.phoneValidation, { number });
 
-      router.push({
-        pathname: "AuthScreen/OtpVerificationScreen",
-        params: { number, emailEmpty: true, emailExists: false },
-      })
+      if (res.data.success) {
+        Alert.alert(res.data.message);
+
+        router.push({
+          pathname: "AuthScreen/OtpVerificationScreen",
+          params: { number, emailEmpty: res.data.emailEmpty, emailExists: res.data.emailExists },
+        });
+      } else {
+        Alert.alert("Something went wrong");
+      }
     } catch (error) {
-      console.error("Error during submission:", error)
-      Alert.alert("Something went wrong")
+      console.error("Error during submission:", error);
     } finally {
-      setPhoneSubmitLoading(false)
+      setPhoneSubmitLoading(false);
     }
-  }
+  };
 
   const isMobile = screenWidth < 768
 
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     overflow: 'hidden',
-    height:Platform.OS === "web" ? '60%' : 400,
+    height: Platform.OS === "web" ? '60%' : 400,
   },
   cardContainerMobile: {
     flexDirection: 'column',
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     flex: 1,
     padding: 20,
-    justifyContent:"center",
+    justifyContent: "center",
   },
   rightContainerMobile: {
     width: '100%',

@@ -5,14 +5,11 @@ import { Platform, useWindowDimensions } from 'react-native';
 import { Home, ShoppingCart, ClipboardList, Settings } from 'lucide-react-native';
 
 export default function Component() {
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-  const { width } = useWindowDimensions();
 
-  useEffect(() => {
-    setIsLargeScreen(width >= 768); // Define a threshold for large screens
-  }, [width]);
 
-  if (isLargeScreen) {
+  
+
+  if (Platform.OS === "web") {
     return (
       <Drawer>
         <Drawer.Screen

@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginForm from './LoginForm';
 import { AuthContext } from '../../context/AuthContext';
 import LogoutComponent from './LogoutComponent';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import SellerComponent from './SellerComponent';
 import { useRouter } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
@@ -16,7 +15,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       {isLoggedIn ? (
         <ScrollView>
           <SellerComponent />
@@ -25,6 +24,6 @@ export default function ProfileScreen() {
       ) : (
         <LoginForm />
       )}
-    </SafeAreaView>
+    </View>
   );
 }

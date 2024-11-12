@@ -17,7 +17,7 @@ export default function LoginForm() {
     }, []);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
                 <Image
                     source={require('../../assets/images/illustration.png')} // Ensure this path is correct
@@ -35,7 +35,7 @@ export default function LoginForm() {
 
 
             </Animated.View>
-        </SafeAreaView>
+        </View>
     );
 }
 

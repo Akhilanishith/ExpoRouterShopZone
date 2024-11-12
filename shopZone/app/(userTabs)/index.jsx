@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Bell, Search, ShoppingBag } from 'lucide-react-native';
 import ProductCard from '../../components/ProductCard';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+
 
 export default function index() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({  headerTitleAlign: 'center',});
+  }, [navigation]);
+  
   const id  = 777777777777
   return (
     <ScrollView style={styles.container}>

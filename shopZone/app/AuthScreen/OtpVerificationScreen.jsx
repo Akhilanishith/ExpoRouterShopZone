@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import React, { useState, useRef, useContext } from 'react';
 import {
   StyleSheet,
@@ -190,7 +184,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 15,
-    backgroundColor: '#0066FF',
+    backgroundColor: '#f4511e',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -238,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
   },
   verifyButton: {
-    backgroundColor: '#0066FF',
+    backgroundColor: '#f4511e',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,

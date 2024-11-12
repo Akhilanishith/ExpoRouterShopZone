@@ -174,14 +174,13 @@
 
 
 import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, ActivityIndicator, Platform } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import FoodShopForm from './FoodShopform.jsx';
 import RetailShopForm from './RetailShopform.jsx';
 import { useRouter, useFocusEffect } from 'expo-router';
 import axios from 'axios';
 import Api from '../../service/Api.js';
-import { Platform } from 'react-native';
 
 
 const SellerComponent = () => {
@@ -322,28 +321,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F0F4F8',
-        padding: 20,
     },
     cardContainer: {
+        borderRadius: 10,
+        marginVertical: 5,
+        display: "flex",
+        backgroundColor:"white",
         flexDirection: 'row',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        width: Platform.OS === 'web' ? 800 : '100%',
-        maxWidth: 800,
-        height: 400,
+        flexWrap: "wrap",
+        height: 300,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
         shadowRadius: 10,
         elevation: 8,
-        overflow: 'hidden',
     },
     leftContainer: {
         flex: 1,
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: 300,
+        borderRadius: 10,
         backgroundColor: '#FF9F00',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 30,
+      
     },
     heading: {
         fontSize: 28,
@@ -359,9 +362,13 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1,
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: 300,
         padding: 40,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: Platform.OS === "web" ? 'column' : 'row',
     },
     button: {
         backgroundColor: '#4CAF50',
@@ -369,7 +376,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginVertical: 10,
         alignItems: 'center',
-        width: '100%',
+        width: Platform.OS === "web" ? '100%' : '50%',
     },
     buttonText: {
         color: 'white',

@@ -1,4 +1,4 @@
-import express from 'express';
+
 import { Brand } from '../../model/model.js';
 import multer from 'multer';
 
