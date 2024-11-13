@@ -5,24 +5,46 @@ import multer from 'multer';
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/sellerBrand'); // Ensure this folder exists
+    const docType = req.body.docType; // Expect docType to be passed in the request body
+
+    // Determine upload directory based on docType
+    let uploadFolder;
+    switch (docType) {
+      case 'brandInvoice':
+        uploadFolder = 'uploads/brandInvoice';
+        break;
+      case 'trademark':
+        uploadFolder = 'uploads/trademark';
+        break;
+      case 'authorizationLetter':
+        uploadFolder = 'uploads/authorizationLetter';
+        break;
+      default:
+        return cb(new Error('Invalid document type specified'));
+    }
+
+    // Ensure directory exists
+    ensureUploadPathExists(uploadFolder);
+
+    cb(null, uploadFolder); // Set the upload path dynamically based on docType
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`); // Timestamp to avoid conflicts
+    cb(null, `${Date.now()}_${file.originalname}`); // Use timestamp to avoid conflicts
   },
 });
 
-// Multer configuration with file filter for JPEG and PNG
+// Multer configuration with file filter for JPEG and PNG images
 const uploads = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
+    // Allow only JPEG and PNG files
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
     } else {
       cb(new Error('Only .jpeg and .png files are supported'), false);
     }
   },
-}).single('logo'); // The field name for the uploaded file is 'logo'
+}).single('document'); // The field name for the uploaded file is 'logo'
 
 // Async function to handle the seller brand upload
 const brandCreatedBySeller = async (req, res) => {

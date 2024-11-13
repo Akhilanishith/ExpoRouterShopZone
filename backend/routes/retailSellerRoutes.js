@@ -24,7 +24,7 @@ router.post('/addRetailSeller',authenticateToken,addRetailSeller);
 router.get('/checkSellerVerificationStatus',authenticateToken,checkSellerVerificationStatus);
  router.post('/brandCreatedBySeller',authenticateToken,brandCreatedBySeller);
  router.get('/getSellerCreatedBrands',authenticateToken,getSellerCreatedBrands);
- router.post('/applyForAdminBrandApproval',authenticateToken,applyForAdminBrandApproval);
+ router.post('/applyForAdminBrandApproval/:brandId',authenticateToken,applyForAdminBrandApproval);
 
 
 

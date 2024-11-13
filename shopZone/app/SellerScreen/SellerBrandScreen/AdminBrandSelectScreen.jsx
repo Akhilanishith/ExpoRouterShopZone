@@ -7,10 +7,10 @@ import {
   ScrollView,
   StyleSheet,
   Image,
+  Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
-import { useRouter } from 'expo-router';
 import axios from 'axios';
 import Api from '../../../service/Api';
 import { AuthContext } from '../../../context/AuthContext';
@@ -31,8 +31,7 @@ export default function BrandSelectScreen() {
     authorizationLetter: null,
   });
 
-  const { token } = useContext(AuthContext); // Assume userId is available in context
-  const router = useRouter();
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -62,7 +61,7 @@ export default function BrandSelectScreen() {
   const handleUpload = async (documentType) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Permission to access media library is required!');
+      Alert.alert('Permission Denied', 'Permission to access media library is required!');
       return;
     }
 
@@ -72,7 +71,7 @@ export default function BrandSelectScreen() {
       quality: 1,
     });
 
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setUploadedDocuments((prev) => ({ ...prev, [documentType]: true }));
       setDocumentImages((prev) => ({ ...prev, [documentType]: result.uri }));
     }
@@ -82,36 +81,36 @@ export default function BrandSelectScreen() {
     try {
       const selectedBrandId = brands.find((brand) => brand.name === selectedBrand)?._id;
       if (!selectedBrandId) {
-        alert('Please select a valid brand.');
+        Alert.alert('Error', 'Please select a valid brand.');
         return;
       }
 
-      const formData = new FormData();
-      formData.append('brandId', selectedBrandId);
+      for (let docType of ['invoice', 'trademark', 'authorizationLetter']) {
+        if (documentImages[docType]) {
+          const formData = new FormData();
+          formData.append('brandId', selectedBrandId);
+          formData.append('docType', docType);
+          formData.append('document', {
+            uri: documentImages[docType],
+            name: documentImages[docType].split('/').pop(),
+            type: `image/${documentImages[docType].split('.').pop()}`,
+          });
 
-      // Attach document image if available
-      if (documentImages.invoice) {
-        const filename = documentImages.invoice.split('/').pop();
-        const type = `image/${filename.split('.').pop()}`;
-        formData.append('invoice', {
-          uri: documentImages.invoice,
-          name: filename,
-          type,
-        });
+          await axios.post(`${Api.applyForAdminBrandApproval}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          Alert.alert('Success', `${docType} document uploaded successfully.`);
+        }
       }
-console.log(formData)
-      await axios.post(`${Api.applyForAdminBrandApproval}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      alert('Brand application submitted successfully!');
+      Alert.alert('Success', 'All documents uploaded, pending admin approval.');
       setShowPopup(false);
     } catch (error) {
-      console.error('Error applying for brand approval:', error);
-      alert('Failed to submit brand application. Please try again.');
+      Alert.alert('Error', 'There was an issue uploading documents for approval.');
     }
   };
 
@@ -128,8 +127,8 @@ console.log(formData)
           style={styles.picker}
         >
           <Picker.Item label="Select a brand" value="" />
-          {brands.map((brand, index) => (
-            <Picker.Item key={brand.id || index} label={brand.name} value={brand.name} />
+          {brands.map((brand) => (
+            <Picker.Item key={brand._id} label={brand.name} value={brand.name} />
           ))}
         </Picker>
       </View>
@@ -144,41 +143,20 @@ console.log(formData)
                   You don’t have permission to select this brand. Please upload one of the following documents to apply for approval:
                 </Text>
                 <View style={styles.documentList}>
-                  <TouchableOpacity
-                    style={[
-                      styles.uploadButton,
-                      uploadedDocuments.invoice && styles.uploadedButton,
-                    ]}
-                    onPress={() => handleUpload('invoice')}
-                  >
-                    <Text style={styles.uploadButtonText}>
-                      {uploadedDocuments.invoice ? 'Invoice ✓' : 'Upload Invoice'}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.uploadButton,
-                      uploadedDocuments.trademark && styles.uploadedButton,
-                    ]}
-                    onPress={() => handleUpload('trademark')}
-                  >
-                    <Text style={styles.uploadButtonText}>
-                      {uploadedDocuments.trademark ? 'Trademark ✓' : 'Upload Trademark'}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.uploadButton,
-                      uploadedDocuments.authorizationLetter && styles.uploadedButton,
-                    ]}
-                    onPress={() => handleUpload('authorizationLetter')}
-                  >
-                    <Text style={styles.uploadButtonText}>
-                      {uploadedDocuments.authorizationLetter
-                        ? 'Authorization Letter ✓'
-                        : 'Upload Authorization Letter'}
-                    </Text>
-                  </TouchableOpacity>
+                  {['invoice', 'trademark', 'authorizationLetter'].map((docType) => (
+                    <TouchableOpacity
+                      key={docType}
+                      style={[
+                        styles.uploadButton,
+                        uploadedDocuments[docType] && styles.uploadedButton,
+                      ]}
+                      onPress={() => handleUpload(docType)}
+                    >
+                      <Text style={styles.uploadButtonText}>
+                        {uploadedDocuments[docType] ? `${docType.charAt(0).toUpperCase() + docType.slice(1)} ✓` : `Upload ${docType.charAt(0).toUpperCase() + docType.slice(1)}`}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
                 <TouchableOpacity
                   style={[
@@ -192,7 +170,6 @@ console.log(formData)
                 </TouchableOpacity>
               </>
             )}
-
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setShowPopup(false)}
@@ -204,12 +181,13 @@ console.log(formData)
       </Modal>
 
       <Image
-        source={{ uri: '/placeholder.svg?height=200&width=200' }}
+        source={{ uri: brands.find((brand) => brand.name === selectedBrand)?.logo || '/placeholder.svg?height=200&width=200' }}
         style={styles.brandImage}
       />
     </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
