@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ProfileScreen from '../ProfileScreen/ProfileScreen'
+import  WebNavBar from "./../../components/WebNavBar"
 
 const profile = () => {
-  return <ProfileScreen/>
+  return <><WebNavBar /><ProfileScreen /></>
 }
 
 export default profile

@@ -1,63 +1,70 @@
-import { StyleSheet, Text, View, Image, Platform } from 'react-native'
-import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ProductCard = ({onPress}) => {
-    return (
-        <TouchableOpacity style={styles.productCard} onPress={onPress}>
-            <Image
-                source={{ uri: 'https://rukminim2.flixcart.com/image/850/1000/kxaq7ww0/headphone/b/s/x/gaming-headphones-with-adjustable-mic-deep-bass-matlek-original-imag9s5kputhy6uj.jpeg' }}
-                style={styles.productImage}
-            />
-            <Text style={styles.productName}>Wireless Headphones</Text>
-            <Text style={styles.productPrice}>$120.00</Text>
-            <View style={styles.colorOptions}>
-                <View style={[styles.colorOption, { backgroundColor: '#3498db' }]} />
-                <View style={[styles.colorOption, { backgroundColor: '#2ecc71' }]} />
-                <View style={[styles.colorOption, { backgroundColor: '#e74c3c' }]} />
+const ProductCard = ({ product }) => (
+    <View style={styles.card}>
+        <Image source={{ uri: product.image }} style={styles.image} />
+        <View style={styles.cardContent}>
+            <Text style={styles.name} numberOfLines={2}>{product.title}</Text>
+            <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
+                {product.description}
+            </Text>
+            <View style={styles.priceContainer}>
+                <Text style={styles.sellingPrice}>${product.price.toFixed(2)}</Text>
             </View>
-        </TouchableOpacity>
-    )
-}
-
-export default ProductCard
+            <View style={styles.ratingContainer}>
+                <Text style={styles.rating}>⭐ {product.rating.rate} ({product.rating.count} reviews)</Text>
+            </View>
+        </View>
+    </View>
+);
 
 const styles = StyleSheet.create({
-    productCard: {
-        width: '48%',
-        backgroundColor: '#f9f9f9',
+    card: {
+        backgroundColor: 'white',
         borderRadius: 8,
-        padding:10,
-        ...Platform.OS === "web" && {
-           maxWidth: 300,
-           minWidth:250
-        
-        }
-        
+        overflow: 'hidden',
+        flexGrow: 1, // Allows the card to grow and take available space
+        flexShrink: 1, // Allows the card to shrink when there is not enough space
+        flexBasis: 160,
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        maxWidth: 200
     },
-    productImage: {
+    image: {
         width: '100%',
-        height: 120,
-        borderRadius: 8,
-        marginBottom: 8,
+        height: 150,
+        resizeMode: "center",
     },
-    productName: {
-        fontSize: 14,
+    cardContent: {
+        padding: 12,
+    },
+    name: {
+        fontSize: 14,  // Lower the font size
         fontWeight: 'bold',
         marginBottom: 4,
     },
-    productPrice: {
+    description: {
         fontSize: 14,
         color: '#666',
         marginBottom: 8,
     },
-    colorOptions: {
+    priceContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    colorOption: {
-        width: 16,
-        height: 16,
-        borderRadius: 8,
-        marginRight: 4,
+    sellingPrice: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#4CAF50',
     },
-})
+    ratingContainer: {
+        marginTop: 8,
+    },
+    rating: {
+        fontSize: 14,
+        color: '#ff5900', // Golden color for rating stars
+    },
+});
+
+export default ProductCard;

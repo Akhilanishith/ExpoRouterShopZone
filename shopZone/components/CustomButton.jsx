@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import * as LucideIcons from 'lucide-react-native';
 
 export default function CustomButton({
@@ -7,11 +7,14 @@ export default function CustomButton({
   icon,
   onPress,
   textColor = '#FFFFFF',
-  bgColor = '#007AFF'
+  bgColor = '#007AFF',
+  loading = false,
+  spinnerColor = '#FFFFFF',
 }) {
   const buttonStyle = {
     ...styles.button,
     backgroundColor: bgColor,
+    opacity: loading ? 0.7 : 1,
   };
 
   const textStyle = {
@@ -22,9 +25,19 @@ export default function CustomButton({
   const IconComponent = icon ? LucideIcons[icon] : null;
 
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress}>
-      {IconComponent && <IconComponent color={textColor} size={24} style={styles.icon} />}
-      {title && <Text style={textStyle}>{title}</Text>}
+    <TouchableOpacity
+      style={buttonStyle}
+      onPress={loading ? null : onPress}
+      disabled={loading}
+    >
+      {loading ? (
+        <ActivityIndicator color={spinnerColor} style={styles.icon} />
+      ) : (
+        <>
+          {IconComponent && <IconComponent color={textColor} size={24} style={styles.icon} />}
+          {title && <Text style={textStyle}>{title}</Text>}
+        </>
+      )}
     </TouchableOpacity>
   );
 }
@@ -42,6 +55,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  icon: {
-  },
+
 });

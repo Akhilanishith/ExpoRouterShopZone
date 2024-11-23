@@ -13,6 +13,11 @@ const Api = {
     getSellerCreatedBrands : server+"/retail/getSellerCreatedBrands",
     getAdminBrands : server+"/admin/getAdminBrands",
     applyForAdminBrandApproval: server+"/retail/applyForAdminBrandApproval",
+    getAdminBrandApproval: server+"/retail/getAdminBrandApproval",
+     getCategories: server+"/admin/categories",
+    getSubcategoriesByCategory: server+"/admin/subcategories",
+    productUploadedBySeller: server+"/retail/productUploadedBySeller",
+    getSubTypesBySubcategories: server+"/admin/getSubTypesBySubcategories",
 
 
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Api, { server } from '../../utils/api';
+import { useAuth } from '../../context/authContext';
 
 export default function ShopScreen() {
     return (
@@ -12,6 +13,7 @@ export default function ShopScreen() {
 }
 
 function CategoryManager() {
+    const { token } = useAuth();
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [showForm, setShowForm] = useState(false);
@@ -26,7 +28,11 @@ function CategoryManager() {
         const fetchCategories = async () => {
             console.log(Api.getCategories)
             try {
-                const response = await axios.get(Api.getCategories);
+                const response = await axios.get(Api.getCategories,{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                });
                 
                 setCategories(response.data);
             } catch (error) {
@@ -57,14 +63,15 @@ function CategoryManager() {
         const data = new FormData();
         data.append('categoryName', formData.name);
         data.append('categoryImage', formData.file);
-
+    
         try {
             const response = await axios.post(Api.createCategory, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`, // Include the token here
                 },
             });
-
+    
             if (response.status === 200) {
                 alert('Category added successfully!');
                 setShowForm(false);
@@ -78,6 +85,7 @@ function CategoryManager() {
             alert('Error submitting form');
         }
     };
+    
 
     return (
         <center>

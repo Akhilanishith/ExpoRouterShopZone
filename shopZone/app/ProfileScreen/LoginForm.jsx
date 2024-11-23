@@ -41,60 +41,11 @@ export default function LoginForm() {
 
 const { width, height } = Dimensions.get('window');  // For responsive design
 
-// const styles = StyleSheet.create({
-//     container: {
-//         height: '100%',
-//         backgroundColor: ConsentColors.backgroundColor, 
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         paddingHorizontal: 20,
-//         ...Platform.OS === "web" && {height: '100vh'}
-//     },
-//     content: {
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-//     illustration: {
-//         width: width * 0.4,  // Responsive width based on screen size
-//         height: height * 0.25,
-//         marginBottom: 30,
-//         borderRadius: 50
-//     },
-//     title: {
-//         fontSize: 26,
-//         fontWeight: 'bold',
-//         color: '#FFF',
-//         marginBottom: 10,
-//     },
-//     description: {
-//         fontSize: 14,
-//         color: '#EAEAEA',
-//         textAlign: 'center',
-//         marginBottom: 30,
-//     },
-//     button: {
-//         backgroundColor: 'white',
-//         paddingVertical: 15,
-//         paddingHorizontal: 40,
-//         borderRadius: 30,
-//         marginBottom: 15,
-//     },
-//     buttonText: {
-//         color: '#745EFF',
-//         fontSize: 16,
-//         fontWeight: 'bold',
-//     },
-// });
+
 
 
 const styles = StyleSheet.create({
-    // container: {
-    //     height: '100%',
-    //     backgroundColor: ConsentColors.backgroundColor, // Adjust to your desired background color
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     paddingHorizontal: 20,
-    // },
+
     container: {
         height: '100%',
         backgroundColor: ConsentColors.backgroundColor, 

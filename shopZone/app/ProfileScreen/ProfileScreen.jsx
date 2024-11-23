@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import LoginForm from './LoginForm';
-import { AuthContext } from '../../context/AuthContext';
 import LogoutComponent from './LogoutComponent';
 import { ScrollView, View } from 'react-native';
 import SellerComponent from './SellerComponent';
 import { useRouter } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function ProfileScreen() {
   const { isLoggedIn, isLoading } = useContext(AuthContext);

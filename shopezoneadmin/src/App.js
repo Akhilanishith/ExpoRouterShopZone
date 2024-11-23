@@ -14,6 +14,7 @@ import LoginPage from './screens/Users/Login.jsx';
 import { useAuth } from './context/authContext';
 import SubcategoryScreen from './screens/categorysection/SubcategoryScreen';
 import SellerBrandVerification from './screens/Brands/sellerCrtBrandVerifiyByAdmin.jsx';
+import SubTypesScreen from './screens/categorysection/subTypes.jsx';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -126,6 +127,14 @@ function App() {
           element={
             <ProtectedRoute>
               <SubcategoryScreen />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/TypeSubcategory/:subcategoryId"
+          element={
+            <ProtectedRoute>
+             <SubTypesScreen/>
             </ProtectedRoute>
           }
         />

@@ -7,6 +7,7 @@ import { createSubcategory, getSubcategoriesByCategory } from '../services/admin
 import { brandCreatedByAdmin, getAdminBrands } from '../services/adminService/brandCreatedByAdmin.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
 import { getSellerCreatedPendingBrands, verifySellerBrandByAdmin } from '../services/adminService/sellerBrandVerificationByAdmin.js';
+import { createSubTypes, getSubTypesBySubcategories } from '../services/adminService/subTypes.js';
 
 
 
@@ -19,14 +20,17 @@ router.use('/uploads', express.static('uploads'));
 router.post('/loginAdmin',adminAuthService);
 router.get('/getPendingSellers', getPendingSellers);
 router.put('/updateSellerStatus', updateSellerStatus);
-router.get('/categories', getCategories);
- router.post('/categories',  createCategory); 
-router.get('/subcategories/:categoryId', getSubcategoriesByCategory);
-router.post('/subcategories', createSubcategory);
+router.get('/categories',getCategories);
+ router.post('/categories',authenticateToken,  createCategory); 
+router.get('/subcategories/:categoryId',authenticateToken,getSubcategoriesByCategory);
+router.post('/subcategories',authenticateToken, createSubcategory);
 router.post('/brandCreatedByAdmin',authenticateToken, brandCreatedByAdmin);
 router.get('/getAdminBrands',authenticateToken, getAdminBrands);
 router.get('/getSellerCreatedPendingBrands',authenticateToken, getSellerCreatedPendingBrands);
 router.put('/verifySellerBrandByAdmin/:brandId', authenticateToken,verifySellerBrandByAdmin);
+router.get('/getSubTypesBySubcategories/:subcategoryId',authenticateToken, getSubTypesBySubcategories);
+router.post('/createSubTypes', authenticateToken,createSubTypes);
+
 
 
 

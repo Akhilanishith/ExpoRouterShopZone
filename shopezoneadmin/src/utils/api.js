@@ -24,7 +24,8 @@ const Api = {
         getAdminBrands: server+"/admin/getAdminBrands",
         getSellerCreatedPendingBrands:server+"/admin/getSellerCreatedPendingBrands",
         verifySellerBrandByAdmin: server+"/admin/verifySellerBrandByAdmin",
-
+        getSubTypesBySubcategories: server+"/admin/getSubTypesBySubcategories",
+        createSubTypes: server+"/admin/createSubTypes",
  
 
 

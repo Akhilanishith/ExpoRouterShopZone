@@ -25,7 +25,7 @@ const uploads = multer({
 
 // Handler to get all categories
 const getCategories = async (req, res) => {
-  console.log("first category")
+
   try {
     const categories = await Category.find(); // Fetch all categories from the database
     res.json(categories); // Return all categories as JSON

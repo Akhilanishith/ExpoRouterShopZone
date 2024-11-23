@@ -7,6 +7,7 @@ const SellerBrandVerification = () => {
   const [verifiedBrands, setVerifiedBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
 
   useEffect(() => {
     const fetchPendingBrands = async () => {

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Api, { server } from '../../utils/api';
 import { useAuth } from '../../context/authContext';
 
 export default function SubcategoryScreen() {
+    const navigate = useNavigate();
     const {token}  = useAuth()
     const { categoryId } = useParams();
     const [subcategories, setSubcategories] = useState([]);
@@ -19,7 +20,12 @@ export default function SubcategoryScreen() {
     useEffect(() => {
         const fetchSubcategories = async () => {
             try {
-                const response = await axios.get(`${Api.getSubcategoriesByCategory}/${categoryId}`);
+                const response = await axios.get(`${Api.getSubcategoriesByCategory}/${categoryId}`,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`, // Include the token here
+                    },
+                });
                 setSubcategories(response.data);
             } catch (error) {
                 console.error('Failed to fetch subcategories:', error);
@@ -55,7 +61,7 @@ export default function SubcategoryScreen() {
             const response = await axios.post(Api.createSubcategory, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    
+                    Authorization: `Bearer ${token}`, // Include the token here
                 },
             });
 
@@ -79,7 +85,12 @@ export default function SubcategoryScreen() {
                 <h1>Subcategories</h1>
                 <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                     {subcategories.map((subcategory) => (
-                        <div key={subcategory._id} style={{ margin: 10 }}>
+                   
+                        <div
+                            key={subcategory._id} // Assuming MongoDB uses _id
+                            style={{ margin: 10 }}
+                            onClick={() => navigate('/TypeSubcategory/' + subcategory._id)}
+                        >
                             <span>
                                 <img
                                     src={`${server}/${subcategory.imageUrl}`}

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Platform, Text } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store"
 import { usePushNotifications } from '../service/notificationService';
 
 export const AuthContext = createContext();  // Named export

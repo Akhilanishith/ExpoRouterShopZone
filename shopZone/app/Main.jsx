@@ -11,7 +11,7 @@ export default function Main() {
   useEffect(() => {
     if (expoPushToken && isLoggedIn) {
    
-        console.log(expoPushToken)
+
         const updateUserToken = async () => {
           try {
             await axios.post(
@@ -23,7 +23,7 @@ export default function Main() {
                 },
               }
             );
-            console.log("Token updated successfully");
+
           } catch (error) {
             console.error("Failed to update token", error);
           }
@@ -38,11 +38,7 @@ export default function Main() {
   return (
     <Stack>
       {/* Define the screens within your Stack */}
-      <Stack.Screen name="AuthScreen/AuthScreen" options={{ headerShown: false }} />
-      <Stack.Screen name="AuthScreen/OtpVerificationScreen" options={{ headerShown: false }} />
       <Stack.Screen name="(userTabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="ProfileScreen/ProfileScreen" options={{ headerShown: false }} />
-      <Stack.Screen name="SellerScreen/SellerDashboard/SellerDashboard" options={{ headerShown: false }} />
     </Stack>
   );
 }

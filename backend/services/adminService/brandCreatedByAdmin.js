@@ -91,17 +91,18 @@ const getAdminBrands = async (req, res) => {
 
     // Check if there are no brands created by the admin
     if (!adminBrands.length) {
-      return res.status(404).json({ message: 'No brands found created by the admin.' });
+      return res.status(404).json({ message: 'No brands found created by the admin.',success:false });
     }
 
     // Return the list of brands
     return res.status(200).json({
       message: 'Admin brands retrieved successfully',
       brands: adminBrands,
+      success:true
     });
   } catch (error) {
     console.error('Error fetching admin brands:', error);
-    return res.status(500).json({ message: 'Server error, please try again later.' });
+    return res.status(500).json({ message: 'Server error, please try again later.' ,success:false});
   }
 };
 
