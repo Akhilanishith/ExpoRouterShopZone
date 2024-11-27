@@ -1,16 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import WebNavBar from "./../../components/WebNavBar"
-import React from 'react'
+import { StyleSheet, Text, View } from 'react-native';
+import WebNavBar from './../../components/WebNavBar';
+import React from 'react';
+import { Platform } from 'react-native';
+import useSetTitle from '../../hooks/useSetTitle';
 
-const orders = () => {
+const Orders = () => {
+  useSetTitle("Oredrs");
   return (
-    <><WebNavBar />
+    <>
+      {Platform.OS === 'web' && <WebNavBar />}
       <View>
         <Text>orders</Text>
-      </View></>
-  )
-}
+      </View>
+    </>
+  );
+};
 
-export default orders
+export default Orders;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

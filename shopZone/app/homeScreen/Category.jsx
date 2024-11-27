@@ -22,7 +22,7 @@ const Category = () => {
 
   return (
     <View style={styles.backgroundContainer}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.container}>
+      <View style={styles.container}>
         {data.map((category, index) => (
           <View key={index} style={styles.categoryItem}>
             <View style={styles.iconBackground}>
@@ -34,7 +34,7 @@ const Category = () => {
             <Text style={styles.categoryText}>{category.name}</Text>
           </View>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -47,24 +47,26 @@ const styles = StyleSheet.create({
   // },
   container: {
     flexDirection: 'row',
+    flexWrap:"wrap",
     padding: 10,
+    gap: 10,
+    justifyContent: 'space-around',
   },
   categoryItem: {
-    alignItems: 'center',
-    marginLeft: 40,
+    width:45,
   },
   iconBackground: {
     backgroundColor: BG_COLOR,
     borderRadius: 25,
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 5,
   },
   image: {
-    width: 60, // Adjust as needed to fit within the background
-    height: 60, // Adjust as needed to fit within the background
+    width:"100%", // Adjust as needed to fit within the background
+    height:"100%", // Adjust as needed to fit within the background
   },
   categoryText: {
     fontSize: 12,

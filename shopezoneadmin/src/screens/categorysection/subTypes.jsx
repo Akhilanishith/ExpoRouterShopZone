@@ -34,7 +34,7 @@ export default function SubTypesScreen() {
             }
         };
         fetchSubTypes();
-    }, [subcategoryId]);
+    }, [subcategoryId, token]);
 
 
     const handleImageChange = (e) => {

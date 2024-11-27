@@ -8,7 +8,7 @@ import Category from "./Category";
 import ProductsComponent from "./ProductsComponent";
 
 const home = () => {
-  
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -17,13 +17,15 @@ const home = () => {
 
 
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+    <View style={{ backgroundColor: "#ffffff" }}>
       <StatusBar style="auto" />
       <Header />
-      <CarouselComponent />
-      <Category />
-      <ProductsComponent />
-    </ScrollView>
+      <ScrollView>
+        <CarouselComponent />
+        <Category />
+        <ProductsComponent />
+      </ScrollView>
+    </View>
   );
 };
 

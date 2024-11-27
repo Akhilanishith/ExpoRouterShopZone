@@ -65,7 +65,7 @@ const SellerComponent = () => {
         } else if (status === 'rejected') {
             Alert.alert(`Reapplying for Retail Seller`);
         } else if (status === 'verified') {
-            router.push('../SellerScreen/(sellerTabs)');
+            router.push('../SellerScreen');
         }
     };
 
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         flexBasis: 300,
         borderRadius: 10,
-        backgroundColor: '#FF9F00',
+        backgroundColor: '#f4511e',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 30,

@@ -18,10 +18,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from '../../../context/AuthContext';
 import Api from '../../../service/Api';
 import { useRouter } from 'expo-router';
-// import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
+import useSetTitle from '../../../hooks/useSetTitle';
+// import useFetchCustomHook from '../../hooks/useFetchCustomHook';
 
 
 const SellerBrandScreen = () => {
+  useSetTitle("Brands");
   const { token } = useContext(AuthContext);
   const router = useRouter();
   const [brands, setBrands] = useState([]);
@@ -36,7 +38,7 @@ const SellerBrandScreen = () => {
   const [seoKeywords, setSeoKeywords] = useState('');
 
   
-  // const { data, loading, error } = useFetchCustomHook(Api.getAdminBrandApproval, token);
+ 
 
   useEffect(() => {
     const fetchSellerCreatedBrands = async () => {
@@ -140,34 +142,14 @@ const SellerBrandScreen = () => {
     }
   };
 
-  // const renderBrandItem = ({ item }) => (
-  //   <View style={styles.cardContainer}>
-  //     <Image source={{ uri: Api.main + item.logo }} style={styles.cardImage} />
-  //     <View style={styles.cardInfo}>
-  //       <Text style={styles.cardName}>{item.name}</Text>
-  //       <View style={styles.cardStatusContainer}>
-  //         {item.status === 'verified' ? (
-  //           <View style={styles.verifiedBadge}>
-  //             <Ionicons name="checkmark-circle" size={16} color="green" />
-  //             <Text style={styles.verifiedText}>Verified</Text>
-  //           </View>
-  //         ) : (
-  //           <View style={styles.pendingBadge}>
-  //             <Ionicons name="time" size={16} color="orange" />
-  //             <Text style={styles.pendingText}>Pending</Text>
-  //           </View>
-  //         )}
-  //       </View>
-  //     </View>
-  //   </View>
-  // );
+ 
 
   const renderBrandItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() => {
         if (item.status === 'verified') {
-          router.push({ pathname: '../SellerAddProduct', params: { brandId: item._id } });
+          router.push(`../BrandProduct/${item._id}`);
 
         } else {
           Alert.alert('Notice', 'Only verified brands can add products.');
@@ -202,7 +184,7 @@ const SellerBrandScreen = () => {
 
   const handleSelectBrand = () => {
     setModalVisible(false);
-    router.push('../AdminBrand');
+    router.push('AdminBrand');
   };
 
   return (

@@ -15,7 +15,7 @@ const home = () => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
   return (
-    <ScrollView style={{ backgroundColor: "#e5ebf3" }}>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <WebNavBar />
       <Category/>
       <WebCarouselComponent />

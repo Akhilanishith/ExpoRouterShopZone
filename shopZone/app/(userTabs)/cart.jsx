@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import  WebNavBar from "./../../components/WebNavBar"
+import useSetTitle from '../../hooks/useSetTitle';
 
 export default function Cart() {
+  useSetTitle("Cart");
   const cartItems = [
     {
       id: '1',
@@ -74,7 +76,7 @@ export default function Cart() {
     {Platform.OS === "web" && <WebNavBar />}
     <View style={styles.container}>
       <View style={styles.cartContainer}>
-        <Text style={styles.title}>Cart</Text>
+        {/* <Text style={styles.title}></Text> */}
         <FlatList
           data={cartItems}
           keyExtractor={(item) => item.id}

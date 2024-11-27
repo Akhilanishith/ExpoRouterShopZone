@@ -46,7 +46,7 @@ const WebCarouselComponent = () => {
         return nextIndex;
       });
     }, 2000); // Change every 2 seconds
-  
+
     return () => clearInterval(interval); // Cleanup on unmount
   }, [activeIndex, sliderImages.length]); // Add activeIndex to dependencies
 
@@ -110,9 +110,9 @@ const WebCarouselComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  carouselContainer: { position: "relative", marginTop: 20, marginBottom:20,},
+  carouselContainer: { position: "relative", marginTop: 20, marginBottom: 20, },
   carouselItem: { position: "relative" },
-  carouselImage: { height: 200, width: "100%", resizeMode: "cover", borderRadius: 20 },
+  carouselImage: { height: 200, width: "100%", resizeMode: "cover", borderRadius: 20, resizeMode: "contain"},
   carouselText: {
     position: "absolute",
     bottom: 16,

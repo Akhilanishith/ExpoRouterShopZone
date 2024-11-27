@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import useSetTitle from '../../../hooks/useSetTitle';
 
 const SellerProductsScreen = () => {
+  useSetTitle("products");
   const router = useRouter();
   const [products, setProducts] = useState([
     { id: '1', name: 'Wireless Earbuds', price: 79.99, stock: 50, image: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSPvXk7i8IQCW41C__jIapq8bPzO9b1q3S_mPjRYX0w3_H3MNX5nkhywpb91vkHTil-mDp1eaSygvR9_Fqz8Ezj5lJM6R_QZtbTuz9TqJilhbtvqIj9BO07BuY' },
@@ -39,7 +41,7 @@ const SellerProductsScreen = () => {
         <Text style={styles.headerText}>Products</Text>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => router.push('./SellerAddProduct')}
+          onPress={() => router.push('../SellerAddProduct/')}
 
 
 

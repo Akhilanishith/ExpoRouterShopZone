@@ -49,7 +49,7 @@ export default function TabLayout() {
   // For mobile platforms, render normal tabs
   return (
     <Tabs screenOptions={{
-      tabBarActiveTintColor: '#6200EE',
+      tabBarActiveTintColor: '#f4511e',
     }}>
       {tabScreens.map(({ name, title, Icon }) => (
         <Tabs.Screen

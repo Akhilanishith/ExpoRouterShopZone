@@ -79,7 +79,7 @@ const NavBar = ({}) => {
               router.push("/search");
             }}
           >
-            <Search size={20} color={"white"} />
+            <Search size={20} color={"#848484"} />
             <Text style={styles.fakeSearchContainerText}>Search</Text>
           </TouchableOpacity>
 
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   fakeSearchContainerSearch: {
-    backgroundColor: "#f4511e",
+    backgroundColor: "#ffffff",
     borderRadius: 5,
     flexDirection: "row",
     alignItems: "center",
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   fakeSearchContainerText: {
     marginLeft: 10,
     fontSize: 14,
-    color: "white",
+    color: "#969696",
   },
   closeButton: {
     alignSelf: "flex-end",
