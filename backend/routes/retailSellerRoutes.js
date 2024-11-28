@@ -3,7 +3,7 @@ import { addRetailSeller, checkSellerVerificationStatus } from '../services/Sell
 import { authenticateToken } from '../middleware/authMiddleware.js';
 import { brandCreatedBySeller, getSellerCreatedBrands } from '../services/SellerBrandService/brandCreatedBySeller.js';
 import { applyForAdminBrandApproval } from '../services/SellerBrandService/applyForAdminBrandApproval.js';
-import { productUploadedBySeller } from '../services/sellerProductUploadService/productUpoladedBySeller.js';
+import { getBrandProduct, productUploadedBySeller } from '../services/sellerProductUploadService/productUpoladedBySeller.js';
 
 
 
@@ -27,6 +27,7 @@ router.post('/brandCreatedBySeller', authenticateToken, brandCreatedBySeller);
 router.get('/getSellerCreatedBrands', authenticateToken, getSellerCreatedBrands);
 router.post('/applyForAdminBrandApproval', authenticateToken, applyForAdminBrandApproval);
 router.post('/productUploadedBySeller', authenticateToken, productUploadedBySeller);
+router.get('/getSellerProduct/:id', authenticateToken, getBrandProduct);
 
 
 

@@ -25,6 +25,44 @@ const AddProduct = () => {
   const [subtype, setSubtype] = useState('');
   const [images, setImages] = useState([]);
 
+  // const pickImage = async () => {
+  //   if (images.length >= 2) {
+  //     Alert.alert('Error', 'You can only upload up to 2 images');
+  //     return;
+  //   }
+  
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+  
+  //   if (!result.canceled) {
+  //     const selectedImage = result.assets?.[0];
+  //     const newImageUri = selectedImage?.uri;
+  
+  //     if (Platform.OS === 'web') {
+  //       // Web needs to handle the image as a File object
+  //       if (newImageUri) {
+  //         const file = await fetch(newImageUri)
+  //           .then(res => res.blob())
+  //           .then(blob => new File([blob], selectedImage?.fileName, { type: blob.type }));
+  
+  //         setImages([...images, file]);
+  //       } else {
+  //         Alert.alert('Error', 'Failed to retrieve image URI');
+  //       }
+  //     } else {
+  //       // Android needs to handle the image as a local file URI
+  //       if (newImageUri) {
+  //         setImages([...images, newImageUri]);
+  //       } else {
+  //         Alert.alert('Error', 'Failed to retrieve image URI');
+  //       }
+  //     }
+  //   }
+  // };
   const pickImage = async () => {
     if (images.length >= 2) {
       Alert.alert('Error', 'You can only upload up to 2 images');
@@ -43,26 +81,25 @@ const AddProduct = () => {
       const newImageUri = selectedImage?.uri;
   
       if (Platform.OS === 'web') {
-        // Web needs to handle the image as a File object
+        // For Web: We use the URI directly for web and try to display it
         if (newImageUri) {
-          const file = await fetch(newImageUri)
-            .then(res => res.blob())
-            .then(blob => new File([blob], selectedImage?.fileName, { type: blob.type }));
-  
-          setImages([...images, file]);
+          // Check if the URI is valid for web usage
+          setImages(prevImages => [...prevImages, newImageUri]);
         } else {
           Alert.alert('Error', 'Failed to retrieve image URI');
         }
       } else {
-        // Android needs to handle the image as a local file URI
+        // For Android: Handling image as local file URI
         if (newImageUri) {
-          setImages([...images, newImageUri]);
+          setImages(prevImages => [...prevImages, newImageUri]);
         } else {
           Alert.alert('Error', 'Failed to retrieve image URI');
         }
       }
     }
   };
+  
+  
   
   const handleSubmit = async () => {
     if (!title || !description || images.length === 0) {
@@ -207,7 +244,12 @@ const AddProduct = () => {
 
       <View style={styles.imageContainer}>
       {images.map((image, index) => (
-  <Image key={index} source={{ uri: image }} style={styles.image} />
+        <Image
+      key={index}
+      source={{ uri: image }}
+      style={styles.image}
+      resizeMode="cover" // Ensures the image is properly scaled to fit
+    />
 ))}
 
         {images.length < 2 && (

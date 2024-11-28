@@ -18,6 +18,7 @@ const Api = {
     getSubcategoriesByCategory: server+"/admin/subcategories",
     productUploadedBySeller: server+"/retail/productUploadedBySeller",
     getSubTypesBySubcategories: server+"/admin/getSubTypesBySubcategories",
+    getSellerProduct : server+"/retail/getSellerProduct",
 
 
 

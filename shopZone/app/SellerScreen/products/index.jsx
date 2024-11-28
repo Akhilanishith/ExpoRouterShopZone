@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import useSetTitle from '../../../hooks/useSetTitle';
 
 const SellerProductsScreen = () => {
@@ -17,7 +17,7 @@ const SellerProductsScreen = () => {
     { id: '6', name: 'Smart Home Thermostat', price: 99.99, stock: 150, image: 'https://example.com/thermostat.jpg' },
     { id: '7', name: 'Smart Home Switch', price: 49.99, stock: 250, image: 'https://example.com/smartswitch.jpg' },
   ]);
-
+// const  {brandId} =useLocalSearchParams();
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
       <Image source={{ uri: item.image }} style={styles.productImage} />
@@ -41,7 +41,7 @@ const SellerProductsScreen = () => {
         <Text style={styles.headerText}>Products</Text>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => router.push('../SellerAddProduct/')}
+          onPress={() => router.push(`../SellerAddProduct/`)}
 
 
 

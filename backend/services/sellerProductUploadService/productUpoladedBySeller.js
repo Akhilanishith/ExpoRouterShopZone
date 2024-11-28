@@ -118,4 +118,55 @@ const productUploadedBySeller = async (req, res) => {
   });
 };
 
-export { productUploadedBySeller };
+
+// Get Seller's Products Function
+const getBrandProduct = async (req, res) => {
+  const { userId } = req.user; // Assuming `req.user` is populated by middleware for authenticated users
+  const { id } = req.params; // The brand ID passed in the request parameters
+
+  try {
+    // Find the brand created by the seller (creatorId should match userId and createdBy should be 'seller')
+    const brand = await Brand.findOne({
+      _id: id,
+      createdBy: 'seller', // Only fetch brands created by a seller
+      creatorId: userId, // Match the seller's user ID
+    }).exec();
+
+    if (!brand) {
+      return res.status(404).json({
+        success: false,
+        message: 'Brand not found or you do not have permission to view it.',
+      });
+    }
+
+    // Fetch all products associated with the found brand
+    const products = await Product.find({ brand: id })
+      .populate('category', 'name') // Optionally populate category details
+      .populate('subcategory', 'name') // Optionally populate subcategory details
+      .exec();
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No products found for this brand.',
+      });
+    }
+
+    // Respond with the list of products for the brand
+    return res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error('Error fetching brand products:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error, please try again later.',
+      error: error.message,
+    });
+  }
+};
+
+
+
+export { productUploadedBySeller,getBrandProduct};

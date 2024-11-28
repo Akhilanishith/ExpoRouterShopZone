@@ -91,7 +91,7 @@ const ProductCard = ({ product }) => {
                     {product.description}
                 </Text>
                 <View style={styles.priceContainer}>
-                    <Text style={styles.sellingPrice}>${product.price.toFixed(2)}</Text>
+                    <Text style={styles.sellingPrice}>₹{product.price.toFixed(2)}</Text>
                 </View>
                 <View style={styles.ratingContainer}>
                     <Text style={styles.rating}>⭐ {product.rating.rate} ({product.rating.count} reviews)</Text>
