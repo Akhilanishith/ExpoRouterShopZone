@@ -5,27 +5,27 @@ const WebCarouselComponent = () => {
   const sliderImages = [
     {
       id: 1,
-      image: "https://mobirise.com/extensions/commercem4/assets/images/galleries-1-1200x800.png",
+      image: "https://rukminim1.flixcart.com/fk-p-flap/1620/270/image/1316eb53d6f52c71.jpg",
       title: "Special Offer Up to 40%",
     },
     {
       id: 2,
-      image: "https://png.pngtree.com/thumb_back/fw800/background/20221218/pngtree-technology-and-multimedia-online-shopping-concept-sale-tv-buy-photo-image_43548278.jpg",
+      image: "https://rukminim1.flixcart.com/fk-p-flap/1620/270/image/d09a5eb3fc5c940e.jpeg",
       title: "Limited Time Deals",
     },
     {
       id: 3,
-      image: "https://cdn.prod.website-files.com/605826c62e8de87de744596e/62b5a9572dab880f81c5d178_ajVzMkY7zNN-cU8hLJlTXR93WXkC09AI_0Dm-VBCfWe-kbHdRAAATBpSlNajuRsW7e0jHYCOVjdcHY1Sf-3X4tAI22KAFbbu31rgYGEmgCSV_WUrLFWhWl09ddXm7EhIITjKG0OggdxALfJeGQ.jpeg",
+      image: "https://rukminim1.flixcart.com/fk-p-flap/1620/270/image/e6dc4b4c88912592.jpg",
       title: "Flash Sale Starts Now!",
     },
     {
       id: 4,
-      image: "https://cdn.prod.website-files.com/605826c62e8de87de744596e/62b5a9578546b75e241a96ec_DsjnCi_UAsvz3qgtq5Q51LjJCzPEO7efYjpxgRD2IZa2ZGudiJQ7Wo3opz192OlHY4-S2ud9hgi72E6Z89Kzi_lQR-nYHH0M9hUuEsvZsoH1Va4L3EWRBzqwHN0IhsVcXTxGrra6Enm8h9_A6g.jpeg",
+      image: "https://rukminim1.flixcart.com/fk-p-flap/1620/270/image/4478f6325d434be9.jpeg",
       title: "Exclusive Discounts Available",
     },
     {
       id: 5,
-      image: "https://helloyubo.com/wp-content/uploads/2022/10/creative_fashion-2-1024x372.jpg",
+      image: "https://rukminim1.flixcart.com/fk-p-flap/1620/270/image/e6dc4b4c88912592.jpg",
       title: "Shop the Latest Trends",
     },
   ];
@@ -110,9 +110,9 @@ const WebCarouselComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  carouselContainer: { position: "relative", marginTop: 20, marginBottom: 20, },
+  carouselContainer: { position: "relative", marginBottom: 20, },
   carouselItem: { position: "relative" },
-  carouselImage: { height: 200, width: "100%", resizeMode: "cover", borderRadius: 20, resizeMode: "contain"},
+  carouselImage: { height: 200, width: "100%", resizeMode: "cover", backgroundColor: "red" },
   carouselText: {
     position: "absolute",
     bottom: 16,

@@ -140,7 +140,7 @@
 
 
 import React, { useContext } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { AuthContext } from '../../../context/AuthContext';
 import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
@@ -175,7 +175,7 @@ const BrandItem = () => {
       onPress={() => router.push(`../SellerAddProduct/${brandId}`)} // Navigate to SellerAddProduct screen
     >
       <View style={styles.buttonContent}>
-        <Text style={{ color: "#000000", marginRight: 4 }}>Add Product</Text>
+        <Text style={{ color: "#000000", marginRight: 4 }}>Product</Text>
         <CirclePlus color={"#000000"} style={styles.icon} />
       </View>
     </TouchableOpacity>
@@ -230,8 +230,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
-    borderRadius: 30, // Rounded corners for the button
+    borderRadius: 5, // Rounded corners for the button
     backgroundColor: "#F2F2F2", // Light gray background
+    ...Platform.OS === "web" && {
+    marginRight: 10, // Adjust for web
+    }
   },
   buttonContent: {
     flexDirection: 'row',

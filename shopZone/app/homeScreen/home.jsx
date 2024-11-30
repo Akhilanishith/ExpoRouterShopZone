@@ -7,6 +7,7 @@ import { useNavigation } from 'expo-router';
 import Category from './Category';
 
 import WebCarouselComponent from '../../components/WebCarouselComponent';
+import FoodZoneExplorer from './WebFoodZoneHeader';
 
 const home = () => {
   const navigation = useNavigation();
@@ -17,8 +18,9 @@ const home = () => {
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <WebNavBar />
-      <Category/>
+      <FoodZoneExplorer/>
       <WebCarouselComponent />
+      <Category/>
       <ProductsComponent />
     </ScrollView>
   )

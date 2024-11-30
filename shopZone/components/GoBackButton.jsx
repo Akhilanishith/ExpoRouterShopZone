@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { ChevronLeft } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
   GoBack: {
     padding: 5,
     borderRadius:30,
-    backgroundColor:"#F2F2F2"
+    backgroundColor:"#F2F2F2",
+    ...Platform.OS === "web" && {
+      marginLeft: 20,
+    }
   },
 })

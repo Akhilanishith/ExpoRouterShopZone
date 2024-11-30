@@ -192,7 +192,7 @@ const SellerBrandScreen = () => {
     return (
       <TouchableOpacity style={styles.headerButtons} onPress={() => setModalVisible(true)}>
         <View style={styles.buttonContent}>
-          <Text style={{color:"#000000",marginRight:4}}>Add Brand</Text>
+          <Text style={{color:"#000000",marginRight:4}}>Brand</Text>
           <CirclePlus color={"#000000"} style={styles.icon} />
         </View>
       </TouchableOpacity>
@@ -419,8 +419,11 @@ const styles = StyleSheet.create({
     borderRadius: 5, // Rounded corners for the button
 
     padding: 5,
-    borderRadius:30,
-    backgroundColor:"#F2F2F2"
+    borderRadius:5,
+    backgroundColor:"#F2F2F2",
+    ...Platform.OS === "web" && {
+      marginRight: 20,
+    }
   },
   buttonContent: {
     flexDirection: 'row',

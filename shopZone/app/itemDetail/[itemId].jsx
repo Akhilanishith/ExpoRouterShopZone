@@ -431,9 +431,11 @@ import {
   FlatList,
 } from 'react-native';
 import useSetTitle from '../../hooks/useSetTitle';
+import { useLocalSearchParams } from 'expo-router';
 
 // ItemDetailsScreen component
 const ItemDetailsScreen = () => {
+  const {itemId} = useLocalSearchParams()
   useSetTitle("Detailes");
   const [product, setProduct] = useState(null); // state to hold the product details
   const [selectedSize, setSelectedSize] = useState('');
@@ -446,7 +448,7 @@ const ItemDetailsScreen = () => {
 
   // Fetch product data when component mounts
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products/1')
+    fetch(`https://fakestoreapi.com/products/${itemId}`)
       .then((response) => response.json())
       .then((data) => setProduct(data))  // update state with fetched product data
       .catch((error) => console.error('Error fetching product:', error));
