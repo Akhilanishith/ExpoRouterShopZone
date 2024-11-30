@@ -1,12 +1,15 @@
 
 import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, ActivityIndicator, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, ActivityIndicator, Platform, Image } from 'react-native';
 import { AuthContext } from '../../context/AuthContext.js';
 import FoodShopForm from './FoodShopform.jsx';
 import RetailShopForm from './RetailShopform.jsx';
 import { useRouter, useFocusEffect } from 'expo-router';
 import axios from 'axios';
 import Api from '../../service/Api.js';
+import { FolderDot, RectangleEllipsis } from 'lucide-react-native';
+import retailImg from "../../assets/images/retail14.jpeg"
+
 
 
 const SellerComponent = () => {
@@ -90,41 +93,18 @@ const SellerComponent = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.cardContainer}>
-                {/* Left Section */}
-                <View style={styles.leftContainer}>
-                    <Text style={styles.heading}>Seller Portal</Text>
-                    <Text style={styles.subheading}>
-                        Manage your Seller accounts and applications with ease.
-                    </Text>
-                </View>
-
-                {/* Right Section with Buttons */}
-                <View style={styles.rightContainer}>
-                    {loading ? (
-                        <ActivityIndicator size="large" color="#f4511e" />
-                    ) : (
-                        <>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => handleFoodButtonPress(foodSellerStatus)}
-                                disabled={foodSellerStatus === 'pending'}
-                            >
-                                <Text style={styles.buttonText}>{getButtonText(foodSellerStatus)}</Text>
-                                <Text style={styles.buttonText}>(Food Seller)</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => handleRetailButtonPress(retailSellerStatus)}
-                                disabled={retailSellerStatus === 'pending'}
-                            >
-                                <Text style={styles.buttonText}>{getButtonText(retailSellerStatus)}</Text>
-                                <Text style={styles.buttonText}>(Retail Seller)</Text>
-                            </TouchableOpacity>
-                        </>
-                    )}
-                </View>
+            <View style={styles.grid}>
+                <TouchableOpacity style={styles.card} onPress={() => handleFoodButtonPress(foodSellerStatus)} disabled={foodSellerStatus === 'pending'}>
+                    <Image source={retailImg} style={styles.img} />
+                    <Text style={styles.cardTitle}>Food Seller</Text>
+                    <Text style={styles.cardSubtitle}>{getButtonText(foodSellerStatus)}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.card} onPress={() => handleRetailButtonPress(retailSellerStatus)}
+                    disabled={retailSellerStatus === 'pending'}>
+                    <Image source={retailImg} style={styles.img} />
+                    <Text style={styles.cardTitle}>Retail Seller</Text>
+                    <Text style={styles.cardSubtitle}>{getButtonText(retailSellerStatus)}</Text>
+                </TouchableOpacity>
             </View>
 
             <Modal
@@ -143,73 +123,10 @@ export default SellerComponent;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F0F4F8',
     },
-    cardContainer: {
-        borderRadius: 10,
-        marginVertical: 5,
-        display: "flex",
-        backgroundColor: "white",
-        flexDirection: 'row',
-        flexWrap: "wrap",
-        height: 300,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 10,
-        elevation: 8,
-    },
-    leftContainer: {
-        flex: 1,
-        flexGrow: 1,
-        flexShrink: 1,
-        flexBasis: 300,
-        borderRadius: 10,
-        backgroundColor: '#f4511e',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 30,
 
-    },
-    heading: {
-        fontSize: 28,
-        fontWeight: '700',
-        color: '#FFFFFF',
-        textAlign: 'center',
-    },
-    subheading: {
-        fontSize: 16,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        marginTop: 10,
-    },
-    rightContainer: {
-        flex: 1,
-        flexGrow: 1,
-        flexShrink: 1,
-        flexBasis: 300,
-        padding: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: Platform.OS === "web" ? 'column' : 'row',
-    },
-    button: {
-        backgroundColor: '#4CAF50',
-        padding: 15,
-        borderRadius: 5,
-        marginVertical: 10,
-        alignItems: 'center',
-        width: Platform.OS === "web" ? '100%' : '50%',
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -223,4 +140,54 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
     },
+
+
+    grid: {
+        width:"100%",
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        ...Platform.OS === "web" && {
+
+            flexWrap: 'nowrap',
+        }
+    },
+    card: {
+        width: '46%',
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 16,
+        margin: '1%',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        ...Platform.OS === "web" && {
+         
+        }
+    },
+    icon: {
+        marginBottom: 12,
+    },
+    cardTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 4,
+    },
+    cardSubtitle: {
+        fontSize: 14,
+        color: '#666',
+        lineHeight: 20,
+    },
+    img:{
+        height: 54,
+        width: 54,
+        marginBottom: 12,
+        resizeMode: 'contain',
+        backgroundColor:"red"
+    }
 });

@@ -18,12 +18,13 @@ import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from '../../../context/AuthContext';
 import Api from '../../../service/Api';
 import { useRouter } from 'expo-router';
-import useSetTitle from '../../../hooks/useSetTitle';
+import {  CirclePlus } from 'lucide-react-native';
+import multiActionButton from '../../../hooks/multiActionAppBar';
 // import useFetchCustomHook from '../../hooks/useFetchCustomHook';
 
 
 const SellerBrandScreen = () => {
-  useSetTitle("Brands");
+
   const { token } = useContext(AuthContext);
   const router = useRouter();
   const [brands, setBrands] = useState([]);
@@ -37,8 +38,8 @@ const SellerBrandScreen = () => {
   const [seoDescription, setSeoDescription] = useState('');
   const [seoKeywords, setSeoKeywords] = useState('');
 
-  
- 
+
+
 
   useEffect(() => {
     const fetchSellerCreatedBrands = async () => {
@@ -142,7 +143,7 @@ const SellerBrandScreen = () => {
     }
   };
 
- 
+
 
   const renderBrandItem = ({ item }) => (
     <TouchableOpacity
@@ -175,7 +176,7 @@ const SellerBrandScreen = () => {
       </View>
     </TouchableOpacity>
   );
-  
+
 
   const handleCreateNewBrand = () => {
     setModalVisible(false);
@@ -184,20 +185,25 @@ const SellerBrandScreen = () => {
 
   const handleSelectBrand = () => {
     setModalVisible(false);
-    router.push('AdminBrand');
+    router.push('../AdminBrand');
   };
 
+  function buttons() {
+    return (
+      <TouchableOpacity style={styles.headerButtons} onPress={() => setModalVisible(true)}>
+        <View style={styles.buttonContent}>
+          <Text style={{color:"#000000",marginRight:4}}>Add Brand</Text>
+          <CirclePlus color={"#000000"} style={styles.icon} />
+        </View>
+      </TouchableOpacity>
+    );
+
+  }
+  multiActionButton("Brands", true, buttons)
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Brands</Text>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <Ionicons name="add-circle-outline" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+
 
       {brands.length === 0 ? (
         <Text style={styles.noBrandsMessage}>
@@ -307,7 +313,7 @@ const SellerBrandScreen = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -405,6 +411,26 @@ const styles = StyleSheet.create({
     width: '48%',
   },
   cancelOrderButtonText: { color: 'gray', fontSize: 16, fontWeight: 'bold' },
+
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5, // Rounded corners for the button
+
+    padding: 5,
+    borderRadius:30,
+    backgroundColor:"#F2F2F2"
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  icon: {
+    width: 20, // Icon size
+    height: 20,
+  },
 });
 
 export default SellerBrandScreen;

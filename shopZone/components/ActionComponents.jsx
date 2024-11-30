@@ -49,22 +49,22 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 5,
+        borderRadius: 10,
         padding: 10,
         fontSize: 16,
+        width: "100%",
         backgroundColor: '#fff',
     },
     button: {
-        paddingVertical: 15,
+        paddingVertical: 5,
         paddingHorizontal: 10,
-        borderRadius: 50,
-        borderWidth: 5,
+        borderRadius: 5,
         borderColor: 'rgba(0, 255, 55, 0.16)',
         alignItems: 'center', // Center the text horizontally
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 13,
         fontWeight: 'bold',
     },
 });

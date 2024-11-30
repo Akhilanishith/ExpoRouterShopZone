@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Alert, ActivityIndicator,TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import Api from '../../service/Api';
 import { AuthContext } from '../../context/AuthContext';
@@ -95,17 +95,19 @@ export default function RetailShopForm({ modelCloseBtn }) {
       />
 
       {isProcessing ? (
-        <ActivityIndicator size="large" color="red" />
+        <ActivityIndicator size="large" color="#FF0000" style={styles.activityIndicator} />
       ) : (
-        <CustomButton title="S U B M I T" bg="red" txtClr="white" onclick={handleSubmit} />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>S U B M I T</Text>
+        </TouchableOpacity>
       )}
 
-      <CustomButton
-        title="C L O S E"
-        bg="red"
-        txtClr="white"
-        onclick={modelCloseBtn || router.back}  // Use router.back if no modelCloseBtn is passed
-      />
+      <TouchableOpacity 
+        style={[styles.button, styles.closeButton]} 
+        onPress={modelCloseBtn || router.back}
+      >
+        <Text style={styles.buttonText}>C L O S E</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -113,21 +115,48 @@ export default function RetailShopForm({ modelCloseBtn }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+    maxWidth: 600,
+    width: '100%',
+    margin: 'auto',
   },
   title: {
     fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
+    color: '#333',
   },
   input: {
-    height: 40,
-    width: 250,
-    borderColor: '#ccc',
+    width: '100%',
+    height: 50,
+    borderColor: '#DDD',
     borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    backgroundColor: '#FFF',
+  },
+  button: {
+    width: '100%',
+    height: 30,
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
     marginBottom: 10,
-    paddingHorizontal: 8,
+  },
+  closeButton: {
+    backgroundColor: '#333',
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  activityIndicator: {
+    marginVertical: 20,
   },
 });

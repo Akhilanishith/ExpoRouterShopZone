@@ -1,46 +1,16 @@
-// import { View, Text } from 'react-native'
-// import React, { useContext } from 'react'
+// import React, { useContext } from 'react';
+// import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+// import { useRouter, useLocalSearchParams } from 'expo-router'; // Import useRouter hook
 // import { AuthContext } from '../../../context/AuthContext';
-// import { useLocalSearchParams } from 'expo-router';
-// import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
-// import { ActivityIndicator } from 'react-native';
-// import Api from '../../../service/Api';
-
-// const BrandItem = () => {
-//     const { token } = useContext(AuthContext);
-//     const { brandId } = useLocalSearchParams();
-//     const { data, loading, error } = useFetchCustomHook(Api.getSellerProduct)
-
-//     const product = [{
-
-//     }]
-
-//     if (loading) {
-//         return <ActivityIndicator />
-//     }
-//     if (error) {
-//         return <View><Text>{error}</Text></View>
-//     }
-//     return (
-//         <View>
-//             <Text>BrandItem</Text>
-//         </View>
-//     )
-// }
-
-// export default BrandItem
-
-// //../SellerAddProduct/${brandId}
-// import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
-// import React, { useContext, useEffect } from 'react';
-// import { AuthContext } from '../../../context/AuthContext';
-// import { useLocalSearchParams } from 'expo-router';
 // import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
 // import Api from '../../../service/Api';
+// import useSetTitle from '../../../hooks/useSetTitle';
 
 // const BrandItem = () => {
+//   useSetTitle('Your Brand Products');
 //   const { token } = useContext(AuthContext);
 //   const { brandId } = useLocalSearchParams(); // Get brandId from URL params
+//   const router = useRouter(); // Initialize router for programmatic navigation
 
 //   // Use custom hook to fetch seller products by brandId
 //   const { data, loading, error } = useFetchCustomHook(`${Api.getSellerProduct}/${brandId}`, token);
@@ -52,34 +22,49 @@
 //       <View style={styles.productDetails}>
 //         <Text style={styles.productTitle}>{item.title}</Text>
 //         <Text>{item.description}</Text>
-//         <Text style={styles.price}>${item.sellingPrice}</Text>
+//         <Text style={styles.price}>₹{item.sellingPrice}</Text>
 //       </View>
 //     </View>
 //   );
 
-//   // Loading state
+//   // Handle button click to navigate to SellerAddProduct screen
+//   const handleUploadProduct = () => {
+//     router.push(`../SellerAddProduct/${brandId}`); // Navigate to SellerAddProduct screen, passing the brandId as a query parameter
+//   };
+
 //   if (loading) {
-//     return <ActivityIndicator />;
+//     return <ActivityIndicator style={styles.loader} />;
 //   }
+
 //   if (error) {
 //     alert(error);
 //   }
 
 //   // No products state
-//   if (!data || data.products.length === 0) {
-//     return <View><Text>No products found for this brand.</Text></View>;
-//   }
+//   const noProducts = !data || data.products.length === 0;
 
 //   return (
 //     <View style={styles.container}>
-//       <Text style={styles.header}>Products for this Brand</Text>
+//       <View style={styles.headerContainer}>
+//         {/* Only show upload button when there are no products */}
+//         <TouchableOpacity style={styles.uploadButton} onPress={handleUploadProduct}>
+//           <Text style={styles.uploadButtonText}>Upload Product</Text>
+//         </TouchableOpacity>
+//       </View>
 
-//       {/* List the products */}
-//       <FlatList
-//         data={data.products}
-//         keyExtractor={(item) => item._id.toString()}
-//         renderItem={renderProductItem}
-//       />
+//       {/* If no products, show a message, but still show the upload button */}
+//       {noProducts ? (
+//         <View style={styles.noProductsContainer}>
+//           <Text>No products found for this brand.</Text>
+//         </View>
+//       ) : (
+//         // List the products if available
+//         <FlatList
+//           data={data.products}
+//           keyExtractor={(item) => item._id.toString()}
+//           renderItem={renderProductItem}
+//         />
+//       )}
 //     </View>
 //   );
 // };
@@ -90,21 +75,28 @@
 //     padding: 15,
 //     backgroundColor: '#fff',
 //   },
-//   header: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
+//   headerContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
 //     marginBottom: 15,
+//   },
+//   uploadButton: {
+//     backgroundColor: '#007AFF',
+//     paddingVertical: 10,
+//     paddingHorizontal: 15,
+//     borderRadius: 5,
+//     marginLeft: 200,
+//   },
+//   uploadButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
 //   },
 //   loader: {
 //     flex: 1,
 //     justifyContent: 'center',
 //     alignItems: 'center',
 //     marginTop: 50,
-//   },
-//   errorText: {
-//     color: 'red',
-//     textAlign: 'center',
-//     marginTop: 20,
 //   },
 //   productCard: {
 //     flexDirection: 'row',
@@ -135,25 +127,36 @@
 //     fontWeight: 'bold',
 //     color: '#007AFF',
 //   },
+//   noProductsContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 50,
+//   },
 // });
 
 // export default BrandItem;
+
+
+
 import React, { useContext } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router'; // Import useRouter hook
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { AuthContext } from '../../../context/AuthContext';
 import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
 import Api from '../../../service/Api';
+import useSetTitle from '../../../hooks/useSetTitle';
+import { CirclePlus } from 'lucide-react-native';
+import multiActionButton from '../../../hooks/multiActionAppBar';
 
 const BrandItem = () => {
+  // useSetTitle('Your Brand Products');
   const { token } = useContext(AuthContext);
-  const { brandId } = useLocalSearchParams(); // Get brandId from URL params
-  const router = useRouter(); // Initialize router for programmatic navigation
+  const { brandId } = useLocalSearchParams();
+  const router = useRouter();
 
-  // Use custom hook to fetch seller products by brandId
   const { data, loading, error } = useFetchCustomHook(`${Api.getSellerProduct}/${brandId}`, token);
 
-  // Render item for FlatList
   const renderProductItem = ({ item }) => (
     <View style={styles.productCard}>
       <Image source={{ uri: Api.main + item.images[0] }} style={styles.productImage} />
@@ -165,42 +168,47 @@ const BrandItem = () => {
     </View>
   );
 
-  // Handle button click to navigate to SellerAddProduct screen
-  const handleUploadProduct = () => {
-    router.push(`../SellerAddProduct/${brandId}`);// Navigate to SellerAddProduct screen, passing the brandId as a query parameter
-  };
-
+  // Function to navigate to the SellerAddProduct screen when the button is clicked
+  const buttons = () => (
+    <TouchableOpacity 
+      style={styles.headerButtons} 
+      onPress={() => router.push(`../SellerAddProduct/${brandId}`)} // Navigate to SellerAddProduct screen
+    >
+      <View style={styles.buttonContent}>
+        <Text style={{ color: "#000000", marginRight: 4 }}>Add Product</Text>
+        <CirclePlus color={"#000000"} style={styles.icon} />
+      </View>
+    </TouchableOpacity>
+  );
+  multiActionButton("Brands product", true, buttons)
   if (loading) {
     return <ActivityIndicator style={styles.loader} />;
   }
+
   if (error) {
     alert(error);
   }
 
-  // No products state
-  if (!data || data.products.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text>No products found for this brand.</Text>
-      </View>
-    );
-  }
+  const noProducts = !data || data.products.length === 0;
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>Products of this Brand</Text>
-        <TouchableOpacity style={styles.uploadButton} onPress={handleUploadProduct}>
-          <Text style={styles.uploadButtonText}>Upload Product</Text>
-        </TouchableOpacity>
+        {/* Use the buttons function for the Add Product button */}
+        {/* {buttons()} */}
       </View>
 
-      {/* List the products */}
-      <FlatList
-        data={data.products}
-        keyExtractor={(item) => item._id.toString()}
-        renderItem={renderProductItem}
-      />
+      {noProducts ? (
+        <View style={styles.noProductsContainer}>
+          <Text>No products found for this brand.</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={data.products}
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={renderProductItem}
+        />
+      )}
     </View>
   );
 };
@@ -217,19 +225,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    borderRadius: 30, // Rounded corners for the button
+    backgroundColor: "#F2F2F2", // Light gray background
   },
-  uploadButton: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  uploadButtonText: {
-    color: '#fff',
-    fontSize: 16,
+  icon: {
+    marginLeft: 5,
   },
   loader: {
     flex: 1,
@@ -266,7 +275,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#007AFF',
   },
+  noProductsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
 });
 
 export default BrandItem;
-
