@@ -27,4 +27,4 @@ export const authenticateToken = async (req, res, next) => {
     res.status(403).json({ error: 'Invalid token' });
   }
 };
-//..middleware 
+//..middleware ..

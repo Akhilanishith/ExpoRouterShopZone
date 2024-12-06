@@ -10,7 +10,7 @@ const useSetTitle = (title, centered = true) => {
     navigation.setOptions({
       title,
       headerTitleAlign: centered ? 'center' : 'left', // Center title if `centered` is true
-      headerLeft: () => <GoBackButton />, // Set GoBackButton as the header left component
+      headerLeft: () => <GoBackButton />, // Set GoBackButton as the header left component kkk
     });
   }, [navigation, title, centered]);
 };
