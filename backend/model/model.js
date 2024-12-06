@@ -819,7 +819,18 @@ const SubTypesSchema = new mongoose.Schema({
     required: true,
   },
 });
-
+const SizeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+ 
+ SubTypes: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'SubTypes',
+    required: true,
+  },
+});
 
 // Product Schema with variants
 const productSchema = new Schema(
@@ -884,9 +895,10 @@ const productSchema = new Schema(
           type: String,
           required: true,
         },
+     
         size: {
-          type: String,
-          enum: ['XS', 'S', 'M', 'L', 'XL'],
+          type: mongoose.Schema.Types.ObjectId,
+         ref: 'Size', // Reference to SubType
           required: true,
         },
         price: {
@@ -923,10 +935,11 @@ const Product = mongoose.model("Product", productSchema);
 const Category = mongoose.model('Category', CategorySchema);
 const Subcategory = mongoose.model('Subcategory', SubcategorySchema);
 const SubTypes = mongoose.model('SubTypes', SubTypesSchema);
+const Size = mongoose.model('Size', SizeSchema);
 
 
 
 /**
  * Export Models
  */
-export { User, Wishlist, Order, Cart, FoodSeller, RetailSeller,Brand,Product,Category,Subcategory,SubTypes};
+export { User, Wishlist, Order, Cart, FoodSeller, RetailSeller,Brand,Product,Category,Subcategory,SubTypes,Size};

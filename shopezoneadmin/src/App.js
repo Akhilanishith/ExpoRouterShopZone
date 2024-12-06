@@ -15,6 +15,7 @@ import { useAuth } from './context/authContext';
 import SubcategoryScreen from './screens/categorysection/SubcategoryScreen';
 import SellerBrandVerification from './screens/Brands/sellerCrtBrandVerifiyByAdmin.jsx';
 import SubTypesScreen from './screens/categorysection/subTypes.jsx';
+import SizeScreen from './screens/categorysection/Size.jsx';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -154,7 +155,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/TypeSubcategory/:subTypesId/Size/:sizeId"
+          element={
+            <ProtectedRoute>
+              <SizeScreen/>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
+      
     </Router>
   );
 }

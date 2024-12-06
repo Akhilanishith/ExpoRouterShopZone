@@ -8,6 +8,7 @@ import { brandCreatedByAdmin, getAdminBrands } from '../services/adminService/br
 import { authenticateToken } from '../middleware/authMiddleware.js';
 import { getSellerCreatedPendingBrands, verifySellerBrandByAdmin } from '../services/adminService/sellerBrandVerificationByAdmin.js';
 import { createSubTypes, getSubTypesBySubcategories } from '../services/adminService/subTypes.js';
+import { createSize, getSizesBySubType } from '../services/adminService/size.js';
 
 
 
@@ -30,7 +31,8 @@ router.get('/getSellerCreatedPendingBrands',authenticateToken, getSellerCreatedP
 router.put('/verifySellerBrandByAdmin/:brandId', authenticateToken,verifySellerBrandByAdmin);
 router.get('/getSubTypesBySubcategories/:subcategoryId',authenticateToken, getSubTypesBySubcategories);
 router.post('/createSubTypes', authenticateToken,createSubTypes);
-
+router.get('/getSizesBySubType/:subTypeId',authenticateToken, getSizesBySubType);
+router.post('/createSize', authenticateToken,createSize);
 
 
 

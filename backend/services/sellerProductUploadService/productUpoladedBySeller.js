@@ -166,7 +166,137 @@ const getBrandProduct = async (req, res) => {
     });
   }
 };
+const getSellerAllBrandProduct = async (req, res) => {
+  const { userId } = req.user; // Assuming `req.user` is populated by middleware for authenticated users
+
+  try {
+    // Find all brands created by the seller (creatorId should match userId and createdBy should be 'seller')
+    const brands = await Brand.find({
+      createdBy: 'seller', // Only fetch brands created by a seller
+      creatorId: userId, // Match the seller's user ID
+    }).exec();
+
+    if (!brands || brands.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No brands found or you do not have permission to view them.',
+      });
+    }
+
+    // Extract brand IDs to use in the product query
+    const brandIds = brands.map((brand) => brand._id);
+
+    // Fetch all products associated with the found brands
+    const products = await Product.find({ brand: { $in: brandIds } })
+      .populate('category', 'name') // Optionally populate category details
+      .populate('subcategory', 'name') // Optionally populate subcategory details
+      .exec();
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No products found for these brands.',
+      });
+    }
+
+    // Respond with the list of products for all brands
+    return res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error('Error fetching brand products:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error, please try again later.',
+      error: error.message,
+    });
+  }
+};
+const getAllSellersAllBrandProducts = async (req, res) => {
+  try {
+    // Find all brands created by sellers (createdBy should be 'seller')
+    const brands = await Brand.find({
+      createdBy: 'seller', // Only fetch brands created by sellers
+    }).exec();
+
+    if (!brands || brands.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No brands found for any seller.',
+      });
+    }
+
+    // Extract brand IDs to use in the product query
+    const brandIds = brands.map((brand) => brand._id);
+
+    // Fetch all products associated with the found brands
+    const products = await Product.find({ brand: { $in: brandIds } })
+      .populate('category', 'name') // Optionally populate category details
+      .populate('subcategory', 'name') // Optionally populate subcategory details
+      .exec();
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No products found for these brands.',
+      });
+    }
+
+    // Respond with the list of products for all sellers' brands
+    return res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error('Error fetching all sellers brand products:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error, please try again later.',
+      error: error.message,
+    });
+  }
+};
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Product ID is required.',
+      });
+    }
+
+    const product = await Product.findById(id,)
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .populate('brand', 'name')
+      .exec();
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found.',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error, please try again later.',
+      error: error.message,
+    });
+  }
+};
 
 
 
-export { productUploadedBySeller,getBrandProduct};
+
+
+export { productUploadedBySeller,getBrandProduct,getSellerAllBrandProduct,getAllSellersAllBrandProducts,getProductById};

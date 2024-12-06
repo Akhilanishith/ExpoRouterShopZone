@@ -145,7 +145,6 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { AuthContext } from '../../../context/AuthContext';
 import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
 import Api from '../../../service/Api';
-import useSetTitle from '../../../hooks/useSetTitle';
 import { CirclePlus } from 'lucide-react-native';
 import multiActionButton from '../../../hooks/multiActionAppBar';
 

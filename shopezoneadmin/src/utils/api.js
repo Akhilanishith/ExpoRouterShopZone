@@ -26,6 +26,8 @@ const Api = {
         verifySellerBrandByAdmin: server+"/admin/verifySellerBrandByAdmin",
         getSubTypesBySubcategories: server+"/admin/getSubTypesBySubcategories",
         createSubTypes: server+"/admin/createSubTypes",
+        getSizesBySubType: server+"/admin/getSizesBySubType",
+        createSize: server+"/admin/createSize",
  
 
 

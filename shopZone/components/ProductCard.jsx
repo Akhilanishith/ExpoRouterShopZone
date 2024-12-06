@@ -71,33 +71,32 @@
 // app/components/ProductCard.jsx
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import Api from '../service/Api';
 
 const ProductCard = ({ product }) => {
     const router = useRouter();
 
-    const handleImagePress = () => {
-        router.push(`/itemDetail/${product.id}`);  // Navigating to the dynamic item details screen
-    };
-
+ 
+    
     return (
-        <View style={styles.card}>
-            <TouchableOpacity onPress={handleImagePress}>
-                <Image source={{ uri: product.image }} style={styles.image} />
-            </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push(`/itemDetail/${product._id}`)}  style={styles.card}>
+            <View>
+                <Image source={{ uri : Api.main+product.images[0]}} style={styles.image} />
+            </View>
             <View style={styles.cardContent}>
                 <Text style={styles.name} numberOfLines={2}>{product.title}</Text>
                 <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
                     {product.description}
                 </Text>
                 <View style={styles.priceContainer}>
-                    <Text style={styles.sellingPrice}>₹{product.price.toFixed(2)}</Text>
+                    <Text style={styles.sellingPrice}>₹{product.originalPrice.toFixed(2)}</Text>
                 </View>
                 <View style={styles.ratingContainer}>
-                    <Text style={styles.rating}>⭐ {product.rating.rate} ({product.rating.count} reviews)</Text>
+                    <Text style={styles.rating}>⭐ 4.5 (4 reviews)</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

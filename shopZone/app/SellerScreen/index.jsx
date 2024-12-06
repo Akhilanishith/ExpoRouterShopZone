@@ -133,10 +133,10 @@ export default function SellerDashBoard() {
                             marginBottom: 8,
                         }}
                     >
-                        Get a lifetime free credit card*
+                        DO You Want TO Promote your product*
                     </Text>
                     <Text style={{ color: '#fff', marginBottom: 16 }}>
-                        ₹50,000 in deals and vouchers*
+                         deals with Us*
                     </Text>
                     <TouchableOpacity
                         style={{

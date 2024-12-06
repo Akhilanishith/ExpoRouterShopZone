@@ -103,6 +103,34 @@ const getSellerCreatedBrands = async (req, res) => {
     return res.status(500).json({ message: 'Server error, please try again later.' });
   }
 };
+const getSellerCreatedVerifiedBrands = async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    // Fetch brands created by the seller with status 'verified'
+    const sellerBrands = await Brand.find({
+      createdBy: 'seller', // Filter brands created by a seller
+      creatorId: userId, // Match the seller's user ID
+      status: 'verified', // Only include verified brands
+    });
+
+    if (!sellerBrands.length) {
+      // Return a success response with an empty array if no verified brands exist
+      return res.status(200).json({
+        message: 'No verified brands found created by this seller.',
+        brands: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Verified seller brands retrieved successfully',
+      brands: sellerBrands,
+    });
+  } catch (error) {
+    console.error('Error fetching verified seller brands:', error);
+    return res.status(500).json({ message: 'Server error, please try again later.' });
+  }
+};
 
 
-export { brandCreatedBySeller, getSellerCreatedBrands };
+export { brandCreatedBySeller, getSellerCreatedBrands,getSellerCreatedVerifiedBrands };

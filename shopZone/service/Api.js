@@ -19,7 +19,10 @@ const Api = {
     productUploadedBySeller: server+"/retail/productUploadedBySeller",
     getSubTypesBySubcategories: server+"/admin/getSubTypesBySubcategories",
     getSellerProduct : server+"/retail/getSellerProduct",
-
+    getSellerAllBrandProduct : server+"/retail/getSellerAllBrandProduct",
+    getSellerCreatedVerifiedBrands : server+"/retail/getSellerCreatedVerifiedBrands",
+    getAllSellersAllBrandProducts : server+"/retail/getAllSellersAllBrandProducts",
+    getProductById : server+"/retail/getProductById",
 
 
     //!seller
