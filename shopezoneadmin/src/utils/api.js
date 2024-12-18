@@ -5,7 +5,7 @@ export const server = "http://localhost:5000" // change this to your server IP a
 const Api = {
   
 
-        //admin
+        //adminn
         loginAdmin : server+"/admin/loginAdmin",
         getPendingSellers : server+"/admin/getPendingSellers",
         updateSellerStatus : server+"/admin/updateSellerStatus",

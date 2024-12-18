@@ -365,7 +365,7 @@ const getAllSellersAllBrandTypesProducts = async (req, res) => {
       });
     }
 
-    // Respond with the list of filtered products
+    // Respond with the list of filtered productsss
     return res.status(200).json({
       success: true,
       products,
