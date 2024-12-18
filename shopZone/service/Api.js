@@ -23,6 +23,8 @@ const Api = {
     getSellerCreatedVerifiedBrands : server+"/retail/getSellerCreatedVerifiedBrands",
     getAllSellersAllBrandProducts : server+"/retail/getAllSellersAllBrandProducts",
     getProductById : server+"/retail/getProductById",
+    // getProductsByTypes : server+"/retail/getProductsByTypes",
+    getAllSellersAllBrandTypesProducts : server+"/retail/getAllSellersAllBrandTypesProducts",
 
 
     //!seller

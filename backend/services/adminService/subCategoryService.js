@@ -14,13 +14,18 @@ const storage = multer.diskStorage({
 const uploads = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if (
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/webp'
+    ) {
       cb(null, true);
     } else {
-      cb(new Error('Only .jpeg and .png files are supported'), false);
+      cb(new Error('Only .jpeg, .png, and .webp files are supported'), false);
     }
   },
 }).single('subcategoryImage');
+
 
 // Handler to get subcategories for a given category
 const getSubcategoriesByCategory = async (req, res) => {

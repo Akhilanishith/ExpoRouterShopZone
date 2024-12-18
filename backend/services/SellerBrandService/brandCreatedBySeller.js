@@ -16,13 +16,18 @@ const storage = multer.diskStorage({
 const uploads = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if (
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/webp'
+    ) {
       cb(null, true);
     } else {
-      cb(new Error('Only .jpeg and .png files are supported'), false);
+      cb(new Error('Only .jpeg, .png, and .webp files are supported'), false);
     }
   },
-}).single('logo'); // The field name for the uploaded file is 'logo'
+}).single('logo');
+ // The field name for the uploaded file is 'logo'
 
 // Async function to handle the seller brand upload
 const brandCreatedBySeller = async (req, res) => {

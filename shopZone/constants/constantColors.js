@@ -25,7 +25,9 @@
 //   },
 // };
 const ConsentColors = {
+  
   backgroundColor : "#f4511e",
+
   textColor : "white"
 }
 export default ConsentColors

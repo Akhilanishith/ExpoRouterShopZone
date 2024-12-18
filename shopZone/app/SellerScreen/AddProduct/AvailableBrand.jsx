@@ -26,7 +26,7 @@ const SellerVerifiedBrands = () => {
   const renderBrandItem = ({ item }) => (
     <TouchableOpacity
       style={styles.brandItem}
-      onPress={() => router.push(`../SellerAddProduct/${item._id}`)} // Pass brandId (_id) to SellerAddProduct screen
+      onPress={() => router.push(`./${item._id}`)} // Pass brandId (_id) to SellerAddProduct screen
     >
       <Text style={styles.brandName}>{item.name}</Text>
     </TouchableOpacity>

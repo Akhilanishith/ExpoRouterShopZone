@@ -19,13 +19,18 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024, // 5 MB file size limit
   },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if (
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/webp'
+    ) {
       cb(null, true);
     } else {
-      cb(new Error('Only .jpeg and .png files are supported'), false);
+      cb(new Error('Only .jpeg, .png, and .webp files are supported'), false);
     }
   },
 }).array('images', 6); // Maximum of 6 images
+ // Maximum of 6 images
 
 // Upload Product Function
 const productUploadedBySeller = async (req, res) => {
@@ -257,6 +262,7 @@ const getAllSellersAllBrandProducts = async (req, res) => {
     });
   }
 };
+//item deatails
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -296,7 +302,84 @@ const getProductById = async (req, res) => {
 };
 
 
+// const getProductsByTypes = async (req, res) => {
+//   try {
+//     const { subtypeId } = req.params;
+//     console.log('Received Subtype ID:', subtypeId);
+
+//     const products = await Product.find({ type: subtypeId })
+//       .populate('type', 'name') // Populate only the `name` field
+//       .populate('subcategory', 'name'); // Populate only the `name` field
+
+//     console.log('Fetched Products:', products);
+//     res.json(products);
+//   } catch (err) {
+//     console.error('Error fetching products by type:', err);
+//     res.status(500).send('Server error');
+//   }
+// };
+const getAllSellersAllBrandTypesProducts = async (req, res) => {
+  try {
+    const { category, subcategory, subTypes } = req.query; // Get category, subcategory, and productType from the query params
+
+    // Find all brands created by sellers (createdBy should be 'seller')
+    const brands = await Brand.find({
+      createdBy: 'seller', // Only fetch brands created by sellers
+    }).exec();
+
+    if (!brands || brands.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No brands found for any seller.',
+      });
+    }
+
+    // Extract brand IDs to use in the product query
+    const brandIds = brands.map((brand) => brand._id);
+
+    // Build the product query with category, subcategory, and productType (if provided)
+    const productQuery = {
+      brand: { $in: brandIds },
+    };
+
+    if (category) {
+      productQuery.category = category; // Filter by category if provided
+    }
+    if (subcategory) {
+      productQuery.subcategory = subcategory; // Filter by subcategory if provided
+    }
+    if (subTypes) {
+      productQuery.subTypes = subTypes; // Filter by productType (e.g., "headset") if provided
+    }
+
+    // Fetch all products associated with the found brands and apply the filters
+    const products = await Product.find(productQuery)
+      .populate('category', 'name') // Optionally populate category details
+      .populate('subcategory', 'name') // Optionally populate subcategory details
+      .exec();
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No products found for the selected criteria.',
+      });
+    }
+
+    // Respond with the list of filtered products
+    return res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error, please try again later.',
+      error: error.message,
+    });
+  }
+};
 
 
 
-export { productUploadedBySeller,getBrandProduct,getSellerAllBrandProduct,getAllSellersAllBrandProducts,getProductById};
+export { productUploadedBySeller,getBrandProduct,getSellerAllBrandProduct,getAllSellersAllBrandProducts,getProductById,getAllSellersAllBrandTypesProducts};

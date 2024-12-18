@@ -23,7 +23,7 @@ export default LogoutComponent;
 
 const styles = StyleSheet.create({
   container: {
-    color: '#fff',
+    color: '#000',
     fontWeight: 'bold',
     
   },

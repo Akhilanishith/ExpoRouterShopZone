@@ -161,7 +161,7 @@
 
 
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Api from '../../../service/Api';
@@ -169,23 +169,23 @@ import multiActionButton from '../../../hooks/multiActionAppBar';
 import { CirclePlusIcon } from 'lucide-react-native';
 import { AuthContext } from '../../../context/AuthContext';
 import useFetchCustomHook from '../../../hooks/useFetchCustomHook';
-import { ActivityIndicator } from 'react-native-web';
+
 
 const SellerProductsScreen = () => {
   const { token } = useContext(AuthContext);
   const { brandId } = useLocalSearchParams();
   const router = useRouter();
-
+console.log(brandId)
   // Fetch all products for all brands created by the seller
   const { data, loading, error } = useFetchCustomHook(`${Api.getSellerAllBrandProduct}`, token);
 
   // Define buttons for the header
-  const renderHeaderButtons = () => (
+  const RenderHeaderButtons = () => (
     <TouchableOpacity 
       style={styles.headerButtons} 
       // onPress={() => router.push(`../SellerAddProduct/[brandId]`)} // Navigate to the add product screen
       // onPress={() => router.push(`../SellerAddProduct/[brandId]${brandId}`)} 
-      onPress={() => router.push(`./[brandId]`)}
+      onPress={() => router.push(`./AddProduct/AvailableBrand`)}
     >
       <View style={styles.buttonContent}>
         <Text style={{ color: "#000000", marginRight: 4 }}>Add Product</Text>
@@ -195,7 +195,7 @@ const SellerProductsScreen = () => {
   );
 
   // Call multiActionButton unconditionally
-  multiActionButton("All Products", true, renderHeaderButtons);
+  multiActionButton("All Products", true, RenderHeaderButtons);
 
   if (loading) {
     return <ActivityIndicator style={styles.loader} />;

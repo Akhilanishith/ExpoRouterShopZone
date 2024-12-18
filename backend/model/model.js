@@ -824,8 +824,7 @@ const SizeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
- SubTypes: {
+  SubTypes: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'SubTypes',
     required: true,
@@ -868,7 +867,7 @@ const productSchema = new Schema(
     subtype: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'SubType', // Reference to SubType
-      required: false,
+      required: true,
     },
     brand: {
       type: mongoose.Schema.Types.ObjectId,
@@ -880,7 +879,7 @@ const productSchema = new Schema(
       required: true,
       validate: {
         validator: function (v) {
-          return v.length <= 2; // Only allow up to 2 images
+          return v.length <= 6; // Only allow up to 2 images
         },
         message: 'You can upload a maximum of 2 images.',
       },

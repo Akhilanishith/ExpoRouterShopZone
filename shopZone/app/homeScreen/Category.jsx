@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Alert, Image } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, Alert, Image, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 import useFetchCustomHook from '../../hooks/useFetchCustomHook';
 import Api from '../../service/Api';
-// import { AuthContext } from '../../context/AuthContext';
+import useSetTitle from '../../hooks/useSetTitle';
 
 const ICON_COLOR = '#FF7F3E';
 const BG_COLOR = '#e7e7e76a';
 
 const Category = () => {
-  // const { token } = useContext(AuthContext);
+  useSetTitle('fgh');
+  const router = useRouter();
   const { data, loading, error } = useFetchCustomHook(Api.getCategories);
 
   if (loading) {
@@ -20,11 +22,19 @@ const Category = () => {
     return null;
   }
 
+  const handleCategoryPress = (categoryId) => {
+    router.push(`../CategorySection/Subcategory/${categoryId}`);
+  };
+
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.container}>
         {data.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.categoryItem}
+            onPress={() => handleCategoryPress(category._id)}
+          >
             <View style={styles.iconBackground}>
               <Image
                 source={{ uri: `${Api.main}/${category.imageUrl}` }}
@@ -32,7 +42,7 @@ const Category = () => {
               />
             </View>
             <Text style={styles.categoryText}>{category.name}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
@@ -40,20 +50,15 @@ const Category = () => {
 };
 
 const styles = StyleSheet.create({
-  // backgroundContainer: {
-  //   flex: 1,
-  //   backgroundColor: '#f0f0f0', // Change this to the desired background color
-  //   paddingVertical: 20,
-  // },
   container: {
     flexDirection: 'row',
-    flexWrap:"wrap",
+    flexWrap: 'wrap',
     padding: 10,
     gap: 10,
     justifyContent: 'space-around',
   },
   categoryItem: {
-    width:45,
+    width: 60,
   },
   iconBackground: {
     backgroundColor: BG_COLOR,
@@ -65,8 +70,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   image: {
-    width:"100%", // Adjust as needed to fit within the background
-    height:"100%", // Adjust as needed to fit within the background
+    width: '100%',
+    height: '100%',
   },
   categoryText: {
     fontSize: 12,

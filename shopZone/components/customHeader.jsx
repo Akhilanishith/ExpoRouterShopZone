@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigation } from 'expo-router';
 import GoBackButton from './GoBackButton';
 
-const headerButtons = ({title, centered = true,}) => {
+const HeaderButtons = ({title, centered = true,}) => {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const headerButtons = ({title, centered = true,}) => {
   )
 }
 
-export default headerButtons
+export default HeaderButtons

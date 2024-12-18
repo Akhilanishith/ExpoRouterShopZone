@@ -1,10 +1,9 @@
-'use client'
-
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native'
 import { useRouter } from 'expo-router'
 import axios from 'axios'
 import Api from '../../service/Api'
+import useSetTitle from '../../hooks/useSetTitle'
 
 export default function Component() {
   const [number, setNumber] = useState("")
@@ -54,7 +53,7 @@ export default function Component() {
   };
 
   const isMobile = screenWidth < 768
-
+  useSetTitle('Add Product');
   return (
     <View style={styles.container}>
       <View style={[styles.cardContainer, isMobile && styles.cardContainerMobile]}>
@@ -113,6 +112,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     overflow: 'hidden',
     height: Platform.OS === "web" ? '60%' : 400,
+    marginBottom : Platform.OS === "web" ? '0%' :80
   },
   cardContainerMobile: {
     flexDirection: 'column',

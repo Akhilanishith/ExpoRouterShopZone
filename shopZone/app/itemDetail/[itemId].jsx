@@ -4,6 +4,7 @@ import { useLocalSearchParams } from 'expo-router';
 import Api from '../../service/Api';
 import { AuthContext } from '../../context/AuthContext';
 import useFetchCustomHook from '../../hooks/useFetchCustomHook';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -11,10 +12,10 @@ const ItemDetails = () => {
   const { itemId } = useLocalSearchParams(); // Get the product ID from the route parameters
   const { token } = useContext(AuthContext);
   const [imageIndex, setImageIndex] = useState(0)
-  const { data, loading, error } = useFetchCustomHook(
-    `${Api.getProductById}/${itemId}`,
-    token
-  );
+  const { data, loading, error } = useFetchCustomHook( `${Api.getProductById}/${itemId}`,  token );
+ 
+  
+   
 
   const sizes = ['S', 'M', 'L', 'XL', 'XXL', '3XL']
 
@@ -36,10 +37,10 @@ const ItemDetails = () => {
 
   // Error state
   if (error) {
-    return <Text style={styles.emptyText}>errr</Text>
+    return <Text style={styles.emptyText}>error</Text>
   }
   if (!data.success) {
-    return <Text style={styles.emptyText}>errr</Text>
+    return <Text style={styles.emptyText}>error</Text>
   }
 
 
@@ -57,7 +58,15 @@ const ItemDetails = () => {
             }
 
           </View>
-
+          <View style={styles.buttonContainer}>
+  <TouchableOpacity style={[styles.button, styles.addToCartButton]}>
+    <AntDesign name="shoppingcart" size={20} color="#fff" style={styles.buttonIcon} />
+    <Text style={styles.buttonText}>GO TO CART</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={[styles.button, styles.buyNowButton]}>
+    <Text style={styles.buttonText}>BUY NOW</Text>
+  </TouchableOpacity>
+</View>
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>TRIGGR Ultrabuds N1 Neo </Text>
@@ -92,6 +101,8 @@ const ItemDetails = () => {
           <Text style={styles.description}>Bank Offer5% Unlimited Cashback on Flipkart Axis Bank Credit CardT&C</Text>
 
         </View>
+   
+
       </View>
       
     </ScrollView>
@@ -199,6 +210,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
+
+  buttonContainer: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: 16,
+  alignSelf: 'center', // Center the button group
+  width: '100%', // Adjust as per your desired width
+  maxWidth: 400, // Ensure it doesn’t stretch too wide
+  backgroundColor: '#fff',
+  padding: 10,
+  borderTopWidth: 1,
+  borderTopColor: '#ddd',
+  borderRadius: 8, // Optional for better styling
+},
+button: {
+  flex: 1,
+  paddingVertical: 15,
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'row',
+  marginHorizontal: 5, // Add spacing between buttons
+  borderRadius: 5,
+},
+buttonIcon: {
+  marginRight: 8,
+},
+addToCartButton: {
+  backgroundColor: '#798645',
+},
+buyNowButton: {
+  backgroundColor: '#EF233C',
+},
+buttonText: {
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: '500',
+},
+
 });
 
 export default ItemDetails;

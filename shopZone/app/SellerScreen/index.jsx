@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 
-import { AwardIcon, NotebookPenIcon, ScrollTextIcon, ChartNoAxesCombinedIcon, ShoppingCartIcon, UsersIcon, ShieldCheckIcon, MessageCircle, FileTextIcon, CarTaxiFrontIcon, TagIcon, GlobeIcon } from 'lucide-react-native';
+import { AwardIcon, NotebookPenIcon, ScrollTextIcon, ChartNoAxesCombinedIcon, ShoppingCartIcon, UsersIcon, ShieldCheckIcon, MessageCircle, FileTextIcon, CarTaxiFrontIcon, TagIcon, GlobeIcon, CirclePlus } from 'lucide-react-native';
 import useSetTitle from '../../hooks/useSetTitle';
 import { useRouter } from 'expo-router';
 
@@ -21,7 +21,13 @@ const menuItems = [
         icon: AwardIcon,
         title: 'Manage Brand',
         subtitle: 'Track your brand performance',
-        route: '../SellerScreen/brands',
+        route: '../SellerScreen/manageBrands',
+    },
+    {
+        icon: CirclePlus,
+        title: 'Add Product',
+        subtitle: 'Add or edit your products',
+        route: '../SellerScreen/AddProduct/AvailableBrand',
     },
     {
         icon: ScrollTextIcon,

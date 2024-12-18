@@ -150,7 +150,7 @@ const SellerBrandScreen = () => {
       style={styles.cardContainer}
       onPress={() => {
         if (item.status === 'verified') {
-          router.push(`../BrandProduct/${item._id}`);
+          router.push(`./BrandProduct/${item._id}`);
 
         } else {
           Alert.alert('Notice', 'Only verified brands can add products.');
@@ -185,9 +185,9 @@ const SellerBrandScreen = () => {
 
   const handleSelectBrand = () => {
     setModalVisible(false);
-    router.push('../AdminBrand');
+    router.push('./AdminBrand');
   };
-
+//added buttons with headding and back button
   function buttons() {
     return (
       <TouchableOpacity style={styles.headerButtons} onPress={() => setModalVisible(true)}>

@@ -171,7 +171,7 @@ const BrandItem = () => {
   const buttons = () => (
     <TouchableOpacity 
       style={styles.headerButtons} 
-      onPress={() => router.push(`../SellerAddProduct/${brandId}`)} // Navigate to SellerAddProduct screen
+      onPress={() => router.push(`../AddProduct/${brandId}`)} // Navigate to SellerAddProduct screen
     >
       <View style={styles.buttonContent}>
         <Text style={{ color: "#000000", marginRight: 4 }}>Product</Text>
