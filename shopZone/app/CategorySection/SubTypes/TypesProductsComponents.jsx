@@ -1,23 +1,16 @@
 
-
 import React, { useContext } from "react";
 import { View, ActivityIndicator, Alert, StyleSheet, Text } from "react-native";
 import ProductCard from "../../../components/ProductCard";
 import { AuthContext } from "../../../context/AuthContext";
 import useFetchCustomHook from "../../../hooks/useFetchCustomHook";
 import Api from "../../../service/Api";
-const ProductsComponents = ({ category, subcategory, subTypes }) => {
+const TypesProductsComponents = ({subTypes }) => {
     const { token } = useContext(AuthContext);
   
-    // Prepare the query parameters to send
-    const queryParams = new URLSearchParams();
-  
-    if (category) queryParams.append('category', category);
-    if (subcategory) queryParams.append('subcategory', subcategory);
-    if (subTypes) queryParams.append('productType', subTypes);
   
     // Pass the query parameters to the API request
-    const { data, loading, error } = useFetchCustomHook(`${Api.getAllSellersAllBrandTypesProducts}?${queryParams.toString()}`, null);
+    const { data, loading, error } = useFetchCustomHook(`${Api.getAllSellersAllBrandTypesProducts}/${subTypes}`, null);
   
     if (loading) {
       return <ActivityIndicator />;
@@ -29,7 +22,7 @@ const ProductsComponents = ({ category, subcategory, subTypes }) => {
     }
   
     const products = Array.isArray(data) ? data : data?.products || [];
-    console.log("Products:", products);
+    //console.log()("Products:", products);
   
     if (products.length === 0) {
       return <Text style={styles.emptyText}>No products found.</Text>;
@@ -60,5 +53,5 @@ const ProductsComponents = ({ category, subcategory, subTypes }) => {
     },
   });
   
-  export default ProductsComponents;
+  export default TypesProductsComponents;
   

@@ -175,7 +175,7 @@ const SellerProductsScreen = () => {
   const { token } = useContext(AuthContext);
   const { brandId } = useLocalSearchParams();
   const router = useRouter();
-console.log(brandId)
+//console.log()(brandId)
   // Fetch all products for all brands created by the seller
   const { data, loading, error } = useFetchCustomHook(`${Api.getSellerAllBrandProduct}`, token);
 

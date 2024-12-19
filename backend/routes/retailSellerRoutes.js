@@ -33,7 +33,7 @@ router.get('/getSellerCreatedVerifiedBrands', authenticateToken, getSellerCreate
 router.get('/getAllSellersAllBrandProducts', getAllSellersAllBrandProducts);
 router.get('/getProductById/:id', getProductById);
 // router.get('/getProductsByTypes/:subtypeId', getProductsByTypes);
-router.get('/getAllSellersAllBrandTypesProducts', getAllSellersAllBrandTypesProducts);
+router.get('/getAllSellersAllBrandTypesProducts/:id', getAllSellersAllBrandTypesProducts);
 
 
 

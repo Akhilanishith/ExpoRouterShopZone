@@ -91,7 +91,7 @@ const WebCarouselComponent = () => {
           const offset = event.nativeEvent.contentOffset.x;
           const currentIndex = Math.round(offset / windowWidth);
           setActiveIndex(currentIndex);
-          console.log("onScroll Index:", currentIndex);
+          //console.log()("onScroll Index:", currentIndex);
         }}
       />
       <View style={styles.pagination}>

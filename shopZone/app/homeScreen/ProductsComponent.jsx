@@ -57,7 +57,7 @@
 
 
 //   const products = Array.isArray(data) ? data : data?.products || [];
-// console.log(products)
+// //console.log()(products)
 //   if (products.length === 0) {
 //     return <Text style={styles.emptyText}>No products found.</Text>;
 //   }
@@ -111,7 +111,7 @@ const ProductsComponent = () => {
   }
 
   const products = Array.isArray(data) ? data : data?.products || [];
-  console.log("Products:", products);
+  //console.log()("Products:", products);
 
   if (products.length === 0) {
     return <Text style={styles.emptyText}>No products found.</Text>;

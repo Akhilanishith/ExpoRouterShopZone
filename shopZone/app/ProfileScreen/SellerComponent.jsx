@@ -79,7 +79,7 @@ const SellerComponent = () => {
         } else if (status === 'rejected') {
             Alert.alert(`Reapplying for Food Seller`);
         } else if (status === 'verified') {
-            console.log(`Managing Food Seller account`);
+            //console.log()(`Managing Food Seller account`);
         }
     };
 

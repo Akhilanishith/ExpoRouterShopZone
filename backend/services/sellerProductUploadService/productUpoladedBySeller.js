@@ -320,40 +320,10 @@ const getProductById = async (req, res) => {
 // };
 const getAllSellersAllBrandTypesProducts = async (req, res) => {
   try {
-    const { category, subcategory, subTypes } = req.query; // Get category, subcategory, and productType from the query params
-
-    // Find all brands created by sellers (createdBy should be 'seller')
-    const brands = await Brand.find({
-      createdBy: 'seller', // Only fetch brands created by sellers
-    }).exec();
-
-    if (!brands || brands.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'No brands found for any seller.',
-      });
-    }
-
-    // Extract brand IDs to use in the product query
-    const brandIds = brands.map((brand) => brand._id);
-
-    // Build the product query with category, subcategory, and productType (if provided)
-    const productQuery = {
-      brand: { $in: brandIds },
-    };
-
-    if (category) {
-      productQuery.category = category; // Filter by category if provided
-    }
-    if (subcategory) {
-      productQuery.subcategory = subcategory; // Filter by subcategory if provided
-    }
-    if (subTypes) {
-      productQuery.subTypes = subTypes; // Filter by productType (e.g., "headset") if provided
-    }
+    const { id } = req.params; // Get category, subcategory, and productType from the query params
 
     // Fetch all products associated with the found brands and apply the filters
-    const products = await Product.find(productQuery)
+    const products = await Product.find({subtype: id})
       .populate('category', 'name') // Optionally populate category details
       .populate('subcategory', 'name') // Optionally populate subcategory details
       .exec();

@@ -63,7 +63,7 @@ export default function FoodShopForm({ route, modelCloseBtn }) {
         setIsProcessing(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log()(error.message);
       Alert.alert('Error', 'Failed to submit food shop data');
       setIsProcessing(false);
     }

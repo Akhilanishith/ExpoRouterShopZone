@@ -60,7 +60,7 @@ const SellerBrandScreen = () => {
         if (error.response && error.response.status === 404) {
           setBrands([]); // Set brands to empty if 404 received for no brands
         } else {
-          console.log("An unexpected error occurred.");
+          //console.log()("An unexpected error occurred.");
         }
       }
     };

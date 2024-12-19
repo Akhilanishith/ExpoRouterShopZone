@@ -41,7 +41,7 @@ const Header = () => {
           style={styles.exploreButton}
           activeOpacity={0.8}
           onPress={() => {
-            console.log("Explore Food Zone pressed");
+            //console.log()("Explore Food Zone pressed");
           }}
         >
           <Text style={styles.exploreButtonText}>Explore Now</Text>

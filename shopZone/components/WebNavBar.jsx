@@ -43,7 +43,7 @@ const NavBar = ({}) => {
 
   const NavItem = ({ title, path }) => {
     const isActive = pathname === path;
-    console.log(router)
+    //console.log()(router)
     return (
       <TouchableOpacity
         onPress={() => handleNavigation(path)}
