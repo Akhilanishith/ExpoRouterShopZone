@@ -224,7 +224,7 @@ import Api from '../../../service/Api';
 import NavBar from '../../../components/WebNavBar';
 import useSetTitle from '../../../hooks/useSetTitle';
 import { ChevronDown } from 'lucide-react-native';
-import ProductsComponents from '../../homeScreen/ProductsComponents';
+import ProductsComponents from '../SubTypes/ProductsComponents';
 
 const SubcategoryScreen = () => {
   useSetTitle('Subcategory');
@@ -254,6 +254,7 @@ const SubcategoryScreen = () => {
         setLoading(false);
       }
     };
+    
 
     if (categoryId) {
       fetchSubcategories();
@@ -274,16 +275,16 @@ const SubcategoryScreen = () => {
     fetchSubtypes(subcategoryId);
   };
 
-  const handleClick = (subcategoryId) => {
-    setSelectedSubcategory(subcategoryId); // Set selected subcategory
-    setSelectedSubtype(null); // Reset selected subtype when changing subcategory
-    fetchSubtypes(subcategoryId);
-  };
   // const handleClick = (subcategoryId) => {
   //   setSelectedSubcategory(subcategoryId); // Set selected subcategory
   //   setSelectedSubtype(null); // Reset selected subtype when changing subcategory
-  //   router.push(`../SubTypes/${subcategoryId}`); // Navigate to SubcategoryTypeScreen
+  //   fetchSubtypes(subcategoryId);
   // };
+  const handleClick = (subcategoryId) => {
+    setSelectedSubcategory(subcategoryId); // Set selected subcategory
+    setSelectedSubtype(null); // Reset selected subtype when changing subcategory
+    router.push(`../SubTypes/${subcategoryId}`); // Navigate to SubcategoryTypeScreen
+  };
   const handleSubtypeClick = (subtypeId) => {
     setSelectedSubtype(subtypeId); // Set selected subtype
   };

@@ -86,7 +86,7 @@
 
 // export default SubcategoryTypeScreen;
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { usePathname } from 'expo-router';
 import axios from 'axios';
 import Api from '../../../service/Api';
@@ -126,14 +126,14 @@ const SubcategoryTypeScreen = () => {
         data={subTypes}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.subTypeItem}>
+          <TouchableOpacity style={styles.subTypeItem}>
             <Image
               source={{ uri: `${Api.main}/${item.imageUrl}` }}
               style={styles.subTypeImage}
               resizeMode="contain"
             />
             <Text style={styles.subTypeName}>{item.name}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

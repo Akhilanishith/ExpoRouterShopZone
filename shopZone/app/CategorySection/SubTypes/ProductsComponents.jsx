@@ -2,10 +2,10 @@
 
 import React, { useContext } from "react";
 import { View, ActivityIndicator, Alert, StyleSheet, Text } from "react-native";
-import ProductCard from "../../components/ProductCard";
-import { AuthContext } from "../../context/AuthContext";
-import useFetchCustomHook from "../../hooks/useFetchCustomHook";
-import Api from "../../service/Api";
+import ProductCard from "../../../components/ProductCard";
+import { AuthContext } from "../../../context/AuthContext";
+import useFetchCustomHook from "../../../hooks/useFetchCustomHook";
+import Api from "../../../service/Api";
 const ProductsComponents = ({ category, subcategory, subTypes }) => {
     const { token } = useContext(AuthContext);
   
