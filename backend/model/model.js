@@ -165,51 +165,95 @@ const wishlistSchema = new Schema({
   }
 }, { timestamps: true });
 
-/**
- * Cart Schema
- */
-const cartSchema = new Schema({
+const cartSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
-  },
-  items: [{
-    product_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-      required: true
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      default: 1
-    },
-    price: {
-      type: Number,
-      required: true
-    }
-  }],
-  total_price: {
-    type: Number,
     required: true,
-    default: 0
   },
-  created_at: {
-    type: Date,
-    default: Date.now
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now
-  }
-}, { timestamps: true });
-
-// Middleware to calculate total price before saving
-cartSchema.pre('save', function (next) {
-  this.total_price = this.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  next();
+  items: [
+    {
+      product_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        default: 1,
+      },
+      price: {
+        type: Number,
+      },
+    },
+  ],
 });
+// const cartSchema = new mongoose.Schema({
+//   user_id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true,
+//   },
+//   items: [
+//     {
+//       product_id: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: 'Product',
+//         required: true,
+//       },
+//       price: {
+//         type: Number,
+//         required: false, // Make price optional
+//       },
+//     },
+//   ],
+// });
+
+/**
+ * Cart Schema
+ */
+// const cartSchema = new Schema({
+//   user_id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   items: [{
+//     product_id: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: 'Product',
+//       required: true
+//     },
+//     quantity: {
+//       type: Number,
+//       required: true,
+//       default: 1
+//     },
+//     price: {
+//       type: Number,
+//       required: true
+//     }
+//   }],
+//   total_price: {
+//     type: Number,
+//     required: true,
+//     default: 0
+//   },
+//   created_at: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   updated_at: {
+//     type: Date,
+//     default: Date.now
+//   }
+// }, { timestamps: true });
+
+// // Middleware to calculate total price before saving
+// cartSchema.pre('save', function (next) {
+//   this.total_price = this.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+//   next();
+// });
 
 /**
  * Order Schema
@@ -451,327 +495,6 @@ BrandSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
-
-
-
-
-
-
-
-
-
-// const productSchema = new mongoose.Schema({
-//   // Basic Product Information
-//   name: {
-//     type: String,
-//     required: true,
-//     trim: true,
-//   },
-//   description: {
-//     type: String,
-//     required: true,
-//     trim: true,
-//   },
-//   price: {
-//     type: Number,
-//     required: true,
-//     min: 0,
-//   },
-//   category: {
-//     type: String,
-//     required: true,
-//     enum: [
-//       "Electronics",
-//       "Fashion",
-//       "Beauty & Personal Care",
-//       "Home & Furniture",
-//       "Sports & Outdoors",
-//       "Toys, Kids & Baby",
-//       "Books & Media",
-//       "Automotive",
-//       "Groceries & Gourmet Foods",
-//       "Health & Wellness",
-//       "Jewelry & Watches",
-//       "Office Supplies & Stationery",
-//       "Pet Supplies",
-//       "Garden & Outdoor",
-//     ],
-//   },
-//   subcategory: {
-//     type: String,
-//     enum: [
-//       "Mobile Phones & Accessories",
-//       "Computers & Laptops",
-//       "Audio & Headphones",
-//       "Home Appliances",
-//       "Cameras & Photography",
-//       "Men’s Clothing",
-//       "Women’s Clothing",
-//       "Footwear",
-//       "Accessories",
-//       "Bags & Wallets",
-//       "Skin Care",
-//       "Hair Care",
-//       "Makeup",
-//       "Fragrances",
-//       "Personal Care Appliances",
-//       "Living Room Furniture",
-//       "Bedroom Furniture",
-//       "Home Decor",
-//       "Kitchen & Dining",
-//       "Lighting",
-//       "Exercise & Fitness",
-//       "Outdoor Sports",
-//       "Team Sports",
-//       "Water Sports",
-//       "Apparel & Footwear",
-//       "Toys & Games",
-//       "Baby Care",
-//       "Kids’ Clothing",
-//       "School Supplies",
-//       "Books",
-//       "Music",
-//       "Movies & TV Shows",
-//       "Magazines & Comics",
-//       "Car Accessories",
-//       "Motorcycle Accessories",
-//       "Tires & Wheels",
-//       "Oils & Fluids",
-//       "Beverages",
-//       "Snacks",
-//       "Staples",
-//       "Dairy & Bakery",
-//       "Supplements",
-//       "Medical Supplies",
-//       "Sexual Wellness",
-//       "Jewelry",
-//       "Watches",
-//       "Office Furniture",
-//       "Stationery",
-//       "Office Equipment",
-//       "Pet Food",
-//       "Pet Accessories",
-//       "Pet Grooming",
-//       "Gardening Tools",
-//       "Outdoor Furniture",
-//       "Plants & Seeds",
-//     ],
-//   },
-//   brand: {
-//     type: String,
-//     required: true,
-//     trim: true,
-//   },
-//   SKU: {
-//     type: String,
-//     required: true,
-//     unique: true,
-//     trim: true,
-//   },
-//   stock: {
-//     type: Number,
-//     required: true,
-//     min: 0,
-//   },
-//   images: [
-//     {
-//       type: String,
-//       required: true,
-//     },
-//   ],
-//   specifications: {
-//     // Flexible key-value pair for general product attributes
-//     type: Map,
-//     of: String,
-//   },
-//   attributes: {
-//     // Specific attributes for different product types
-//     // For Electronics like TV, Mobile Phones, Laptops
-//     screenSize: {
-//       type: String, // E.g., "50 inches" for TVs
-//     },
-//     RAM: {
-//       type: String, // E.g., "8GB" for Mobiles
-//     },
-//     storage: {
-//       type: String, // E.g., "128GB" for mobiles, laptops, etc.
-//     },
-//     processor: {
-//       type: String, // E.g., "Intel i7" for laptops or "Snapdragon 888" for phones
-//     },
-//     batteryCapacity: {
-//       type: String, // E.g., "5000 mAh" for phones
-//     },
-//     colorOptions: [
-//       {
-//         type: String, // E.g., "Red", "Blue", "Black"
-//       },
-//     ],
-
-//     // For Fashion like Clothing
-//     availableSizes: [
-//       {
-//         type: String,
-//         enum: ["XS", "S", "M", "L", "XL", "XXL"],
-//       },
-//     ],
-//     material: {
-//       type: String, // E.g., "Cotton", "Polyester"
-//     },
-//     gender: {
-//       type: String,
-//       enum: ["Men", "Women", "Unisex"],
-//     },
-//   },
-//   dimensions: {
-//     weight: {
-//       type: Number,
-//     },
-//     length: {
-//       type: Number,
-//     },
-//     width: {
-//       type: Number,
-//     },
-//     height: {
-//       type: Number,
-//     },
-//     unit: {
-//       type: String,
-//       enum: ["cm", "inches", "mm"],
-//       default: "cm",
-//     },
-//   },
-//   warranty: {
-//     type: String,
-//     trim: true,
-//   },
-//   returnPolicy: {
-//     type: String,
-//     trim: true,
-//   },
-//   ratings: {
-//     average: {
-//       type: Number,
-//       min: 0,
-//       max: 5,
-//       default: 0,
-//     },
-//     numberOfRatings: {
-//       type: Number,
-//       default: 0,
-//     },
-//   },
-//   reviews: [
-//     {
-//       user: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "User",
-//       },
-//       rating: {
-//         type: Number,
-//         min: 0,
-//         max: 5,
-//         required: true,
-//       },
-//       comment: {
-//         type: String,
-//         trim: true,
-//       },
-//       created_at: {
-//         type: Date,
-//         default: Date.now,
-//       },
-//     },
-//   ],
-//   discount: {
-//     type: Number, // Percentage discount
-//     default: 0,
-//   },
-//   tags: [
-//     {
-//       type: String,
-//       trim: true,
-//     },
-//   ],
-//   isFeatured: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   created_at: {
-//     type: Date,
-//     default: Date.now,
-//   },
-//   updated_at: {
-//     type: Date,
-//     default: Date.now,
-//   },
-//   variants: [
-//     {
-//       variantType: {
-//         type: String, // E.g., "Color", "Size"
-//       },
-//       value: {
-//         type: String, // E.g., "Red", "M", "32GB"
-//       },
-//       additionalPrice: {
-//         type: Number, // Price variation for specific variant
-//         default: 0,
-//       },
-//       stock: {
-//         type: Number,
-//         default: 0,
-//       },
-//     },
-//   ],
-//   shippingDetails: {
-//     weight: {
-//       type: Number, // Weight for shipping purposes
-//     },
-//     dimensions: {
-//       length: {
-//         type: Number,
-//       },
-//       width: {
-//         type: Number,
-//       },
-//       height: {
-//         type: Number,
-//       },
-//     },
-//     freeShipping: {
-//       type: Boolean,
-//       default: false,
-//     },
-//     shippingCost: {
-//       type: Number,
-//       default: 0,
-//     },
-//   },
-//   supplierDetails: {
-//     name: {
-//       type: String,
-//     },
-//     contact: {
-//       type: String,
-//     },
-//   },
-//   promotionDetails: {
-//     startDate: {
-//       type: Date,
-//     },
-//     endDate: {
-//       type: Date,
-//     },
-//     promotionalPrice: {
-//       type: Number,
-//     },
-//   },
-// }, { timestamps: true });
-
-
-
-
 
 
 const CategorySchema = new mongoose.Schema({

@@ -25,6 +25,8 @@ const Api = {
     getProductById : server+"/retail/getProductById",
     // getProductsByTypes : server+"/retail/getProductsByTypes",
     getAllSellersAllBrandTypesProducts : server+"/retail/getAllSellersAllBrandTypesProducts",
+    addProductToCart : server+"/user/addProductToCart",
+    getCartAddedProduct : server+"/user/getCartAddedProduct",
 
 
     //!seller

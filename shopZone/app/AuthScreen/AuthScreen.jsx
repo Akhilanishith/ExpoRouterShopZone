@@ -53,7 +53,7 @@ export default function Component() {
   };
 
   const isMobile = screenWidth < 768
-  useSetTitle('Add Product');
+  useSetTitle('Auth');
   return (
     <View style={styles.container}>
       <View style={[styles.cardContainer, isMobile && styles.cardContainerMobile]}>
