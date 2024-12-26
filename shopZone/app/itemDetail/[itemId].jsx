@@ -557,17 +557,45 @@ const ItemDetails = () => {
     { id: 5, image: '/placeholder.svg?height=60&width=60', color: 'green' },
   ];
 
+  // const handleAddToCart = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       Api.addProductToCart,
+  //       { productId: itemId, quantity: 1 },
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+
+  //     if (response.data.success) {
+  //       setIsInCart(true); // Update the state to indicate the product is in the cart
+  //       Alert.alert('Success', 'Item added to cart successfully.');
+  //     } else {
+  //       Alert.alert('Error', response.data.message || 'Failed to add item to cart.');
+  //     }
+  //   } catch (err) {
+  //     Alert.alert('Error', 'Something went wrong. Please try again.');
+  //   }
+  // };
   const handleAddToCart = async () => {
+    if (!token) {
+      // Redirect to AuthScreen with parameters for redirection after login
+      router.push({
+        pathname: '../AuthScreen/AuthScreen',
+        params: { returnTo: `../itemDetail/${itemId}` },
+      });
+      return;
+    }
+  
     try {
       const response = await axios.post(
         Api.addProductToCart,
         { productId: itemId, quantity: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
       if (response.data.success) {
-        setIsInCart(true); // Update the state to indicate the product is in the cart
+        setIsInCart(true);
         Alert.alert('Success', 'Item added to cart successfully.');
+        navigateToCart(); // Navigate to CartScreen after adding to cart
       } else {
         Alert.alert('Error', response.data.message || 'Failed to add item to cart.');
       }
@@ -575,10 +603,11 @@ const ItemDetails = () => {
       Alert.alert('Error', 'Something went wrong. Please try again.');
     }
   };
-
+  
   const navigateToCart = () => {
-    router.push('../CartScreen');
+    router.push('../(userTabs)/cart');
   };
+  
 
   if (loading) {
     return <ActivityIndicator style={styles.loader} />;

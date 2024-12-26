@@ -83,6 +83,23 @@
 //       });
 //     }
 //   };
+// const getCartAddedProduct = async (req, res) => {
+//     const { userId } = req.user;
+  
+//     try {
+//       const cart = await Cart.findOne({ user_id: userId })
+//         .populate('items.product_id', 'title images sellingPrice originalPrice')
+//         .exec();
+  
+//       if (!cart || cart.items.length === 0) {
+//         return res.status(404).json({ success: false, message: 'No items found in the cart.' });
+//       }
+  
+//       return res.status(200).json({ success: true, cart });
+//     } catch (error) {
+//       return res.status(500).json({ success: false, message: 'Server error.', error: error.message });
+//     }
+//   };
   
 import { Cart, Product } from "../../model/model.js";
 
@@ -122,76 +139,81 @@ const addProductToCart = async (req, res) => {
   }
 };
 
-// const getCartAddedProduct = async (req, res) => {
-//     const { userId } = req.user;
-  
-//     try {
-//       const cart = await Cart.findOne({ user_id: userId })
-//         .populate('items.product_id', 'title images sellingPrice originalPrice')
-//         .exec();
-  
-//       if (!cart || cart.items.length === 0) {
-//         return res.status(404).json({ success: false, message: 'No items found in the cart.' });
-//       }
-  
-//       return res.status(200).json({ success: true, cart });
-//     } catch (error) {
-//       return res.status(500).json({ success: false, message: 'Server error.', error: error.message });
-//     }
-//   };
+
 const getCartAddedProduct = async (req, res) => {
-    const { userId } = req.user;
-  
-    try {
-      const cart = await Cart.findOne({ user_id: userId })
-        .populate('items.product_id', 'title images sellingPrice originalPrice')
-        .exec();
-  
-      if (!cart || cart.items.length === 0) {
-        return res.status(404).json({ success: false, message: 'No items found in the cart.' });
-      }
-  
-      let totalDiscount = 0;
-      let totalPrice = 0;
-  
-      const itemsWithDiscount = cart.items.map((item) => {
-        const product = item.product_id;
-  
-        // Discount per item
-        const itemDiscount = (product.originalPrice - product.sellingPrice) * item.quantity;
-  
-        // Total price for item after discount
-        const itemTotal = product.sellingPrice * item.quantity;
-  
-        // Accumulate totals
-        totalDiscount += itemDiscount > 0 ? itemDiscount : 0;
-        totalPrice += itemTotal;
-  
-        return {
-          product_id: product._id,
-          title: product.title,
-          images: product.images,
-          quantity: item.quantity,
-          originalPrice: product.originalPrice,
-          sellingPrice: product.sellingPrice,
-          itemTotal: itemTotal,
-          discount: itemDiscount > 0 ? itemDiscount : 0,
-        };
-      });
-  
-      const response = {
-        items: itemsWithDiscount,
-        totalPrice,
-        totalDiscount,
-      };
-  
-      return res.status(200).json({ success: true, cart: response });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: 'Server error.', error: error.message });
+  const { userId } = req.user;
+
+  try {
+    const cart = await Cart.findOne({ user_id: userId })
+      .populate('items.product_id', 'title images sellingPrice originalPrice')
+      .exec();
+
+    if (!cart || cart.items.length === 0) {
+      // Always return the simplified response structure when the cart is empty or does not exist
+      return res.status(200).json({ success: true, cart: { items: [] } });
     }
-  };
+
+    // Map the items to the desired structure
+    const formattedItems = cart.items.map(item => ({
+      product_id: item.product_id._id,
+      title: item.product_id.title,
+      originalPrice: item.product_id.originalPrice,
+      sellingPrice: item.product_id.sellingPrice,
+      images: item.product_id.images,
+      quantity: item.quantity,
+      price: item.price,
+      _id: item._id
+    }));
+
+    return res.status(200).json({ success: true, cart: { items: formattedItems } });
+  } catch (error) {
+    // Return server error in case of an exception
+    return res.status(500).json({ success: false, message: 'Server error.', error: error.message });
+  }
+};
+
   
   
+ 
+
+const removeProductFromCart = async (req, res) => {
+  const { userId } = req.user;
+  const { productId } = req.body;
+
+  try {
+    // Find the cart for the user
+    let cart = await Cart.findOne({ user_id: userId });
+
+    if (!cart || cart.items.length === 0) {
+      return res.status(404).json({ success: false, message: 'Cart is empty or not found.' });
+    }
+
+    // Find the product in the cart
+    const existingItemIndex = cart.items.findIndex(
+      (item) => item.product_id.toString() === productId
+    );
+
+    if (existingItemIndex === -1) {
+      return res.status(404).json({ success: false, message: 'Product not found in the cart.' });
+    }
+
+    // Remove the product from the cart
+    cart.items.splice(existingItemIndex, 1);
+
+    // Save the updated cart
+    await cart.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Product removed from cart successfully.',
+      cart,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Server error.', error: error.message });
+  }
+};
+
+
+
   
-  
-  export { addProductToCart, getCartAddedProduct };
+  export { addProductToCart, getCartAddedProduct,removeProductFromCart };

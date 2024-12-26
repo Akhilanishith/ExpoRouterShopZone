@@ -5,8 +5,6 @@ import useSetTitle from '../../hooks/useSetTitle';
 import CartScreen from '../CartScreen';
 
 const Profile = () => {
-  // Set the title for the page
-  useSetTitle("Your Bag");
 
   return (
     <View style={styles.container}>

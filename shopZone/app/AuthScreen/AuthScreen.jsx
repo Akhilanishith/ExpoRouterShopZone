@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Alert, ActivityIndicator, Platform, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native'
-import { useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import axios from 'axios'
 import Api from '../../service/Api'
 import useSetTitle from '../../hooks/useSetTitle'
 
 export default function Component() {
+  const { returnTo } = useLocalSearchParams();
   const [number, setNumber] = useState("")
   const [phoneSubmitLoading, setPhoneSubmitLoading] = useState(false)
   const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
@@ -40,7 +41,7 @@ export default function Component() {
 
         router.push({
           pathname: "AuthScreen/OtpVerificationScreen",
-          params: { number, emailEmpty: res.data.emailEmpty, emailExists: res.data.emailExists },
+          params: { number, emailEmpty: res.data.emailEmpty, emailExists: res.data.emailExists,returnTo:returnTo },
         });
       } else {
         Alert.alert("Something went wrong");

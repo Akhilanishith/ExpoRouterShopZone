@@ -27,6 +27,7 @@ const Api = {
     getAllSellersAllBrandTypesProducts : server+"/retail/getAllSellersAllBrandTypesProducts",
     addProductToCart : server+"/user/addProductToCart",
     getCartAddedProduct : server+"/user/getCartAddedProduct",
+    removeProductFromCart : server+"/user/removeProductFromCart",
 
 
     //!seller

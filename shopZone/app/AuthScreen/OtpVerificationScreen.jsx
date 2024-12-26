@@ -22,7 +22,7 @@ const isWeb = Platform.OS === 'web';
 
 const OtpVerificationScreen = () => {
   const { login } = useContext(AuthContext);
-  const { number, emailEmpty, emailExists } = useLocalSearchParams();
+  const { number, emailEmpty, emailExists,returnTo } = useLocalSearchParams();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [email, setEmail] = useState('');
   const inputRefs = useRef([]);
@@ -79,7 +79,7 @@ const OtpVerificationScreen = () => {
         if (result.isSeller) {
           router.push('/SellerComponent');
         } else {
-          router.push('/(userTabs)');
+          router.push(returnTo || '/(userTabs)');
         }
       } else {
         Alert.alert(result.message);
