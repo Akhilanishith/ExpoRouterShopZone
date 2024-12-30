@@ -138,32 +138,32 @@ const userSchema = new Schema({
 /**
  * Wishlist Schema
  */
-const wishlistSchema = new Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  items: [{
-    product_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-      required: true
-    },
-    added_at: {
-      type: Date,
-      default: Date.now
-    }
-  }],
-  created_at: {
-    type: Date,
-    default: Date.now
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now
-  }
-}, { timestamps: true });
+// const wishlistSchema = new Schema({
+//   user_id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   items: [{
+//     product_id: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: 'Product',
+//       required: true
+//     },
+//     added_at: {
+//       type: Date,
+//       default: Date.now
+//     }
+//   }],
+//   created_at: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   updated_at: {
+//     type: Date,
+//     default: Date.now
+//   }
+// }, { timestamps: true });
 
 const cartSchema = new mongoose.Schema({
   user_id: {
@@ -638,9 +638,50 @@ const productSchema = new Schema(
 );
 
 
+
+const wishlistSchema = new mongoose.Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  items: [
+    {
+      product_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+      },
+      addedAt: {
+        type: Date,
+        default: Date.now, // Automatically set the date when the product is added to the wishlist
+      },
+    },
+  ],
+},
+{ timestamps: true }); // Adds createdAt and updatedAt fields
+
+
  // Adds createdAt and updatedAt timestamps
 
 
+ const AddressSchema = new mongoose.Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
+  name: {
+     type: String,
+      required: true },
+  mobile: { type: String, required: true, match: /^[0-9]{10}$/ }, // Ensure mobile number is 10 digits
+  pincode: { type: String, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  landmark: { type: String },
+  addressType: { type: String, default: "Home" },
+});
 
 
 
@@ -658,10 +699,11 @@ const Category = mongoose.model('Category', CategorySchema);
 const Subcategory = mongoose.model('Subcategory', SubcategorySchema);
 const SubTypes = mongoose.model('SubTypes', SubTypesSchema);
 const Size = mongoose.model('Size', SizeSchema);
+const AddDeliveryAddress = mongoose.model('AddDeliveryAddress', AddressSchema);
 
 
 
 /**
  * Export Models
  */
-export { User, Wishlist, Order, Cart, FoodSeller, RetailSeller,Brand,Product,Category,Subcategory,SubTypes,Size};
+export { User, Wishlist, Order, Cart, FoodSeller, RetailSeller,Brand,Product,Category,Subcategory,SubTypes,Size,AddDeliveryAddress};
