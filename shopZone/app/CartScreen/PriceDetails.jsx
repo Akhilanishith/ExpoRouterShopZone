@@ -42,17 +42,31 @@ const PriceDetails = ({ items, totalPrice, discount, deliveryCharges, totalAmoun
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-  },
+  // container: {
+  //   backgroundColor: 'white',
+  //   borderRadius: 8,
+  //   padding: 16,
+  //   marginBottom: 16,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowRadius: 5,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   elevation: 3,
+  // },
+
+    container: {
+      backgroundColor: 'white',
+      borderRadius: 8,
+      padding: 16,
+      marginBottom: 16,
+      width: '100%', // Full width for mobile
+    },
+    webContainer: {
+      width: '100%', // Adjust as needed for web layout
+    },
+    // Other styles remain unchanged
+
+  
   heading: {
     fontSize: 18,
     fontWeight: 'bold',

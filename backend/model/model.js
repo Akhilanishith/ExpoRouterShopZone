@@ -686,7 +686,7 @@ const wishlistSchema = new mongoose.Schema({
 
 
 
-// Models
+// Modelss
 const Cart = mongoose.model('Cart', cartSchema);
 const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 const Order = mongoose.model('Order', orderSchema);

@@ -28,6 +28,20 @@ const Api = {
     addProductToCart : server+"/user/addProductToCart",
     getCartAddedProduct : server+"/user/getCartAddedProduct",
     removeProductFromCart : server+"/user/removeProductFromCart",
+    updateCartQuantity : server+"/user/updateCartQuantity",
+    addProductToWishlist : server+"/user/addProductToWishlist",
+    getWishlistAddedProducts : server+"/user/getWishlistAddedProducts",
+    removeProductFromWishlist : server+"/user/removeProductFromWishlist",
+
+getUserDetails : server+"/user/getUserDetails",
+
+    addDeliveryAddress : server+"/user/addDeliveryAddress",
+
+    getDeliveryAddress : server+"/user/getDeliveryAddress",
+
+    updateAddress : server+"/user/updateAddress",
+
+    deleteAddress : server+"/user/deleteAddress",
 
 
     //!seller

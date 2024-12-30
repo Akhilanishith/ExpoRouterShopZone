@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => {
@@ -7,7 +8,7 @@ const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={onDecrease}
-        disabled={quantity <= 1} // Disable if quantity is 1
+        disabled={quantity <= 1}
       >
         <Text style={[styles.buttonText, quantity <= 1 && styles.disabledText]}>−</Text>
       </TouchableOpacity>
