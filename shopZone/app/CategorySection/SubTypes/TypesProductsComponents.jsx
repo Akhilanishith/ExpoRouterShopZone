@@ -45,7 +45,7 @@ const TypesProductsComponents = ({subTypes }) => {
       flexDirection: "row",
       justifyContent: "center",
       gap: 15,
-    },
+    }, 
     emptyText: {
       textAlign: "center",
       fontSize: 16,

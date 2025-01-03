@@ -29,7 +29,7 @@ const Api = {
     getCartAddedProduct : server+"/user/getCartAddedProduct",
     removeProductFromCart : server+"/user/removeProductFromCart",
     updateCartQuantity : server+"/user/updateCartQuantity",
-    addProductToWishlist : server+"/user/addProductToWishlist",
+    toggleWishlistApi : server+"/user/toggleWishlist",
     getWishlistAddedProducts : server+"/user/getWishlistAddedProducts",
     removeProductFromWishlist : server+"/user/removeProductFromWishlist",
 

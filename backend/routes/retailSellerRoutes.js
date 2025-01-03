@@ -30,7 +30,7 @@ router.post('/productUploadedBySeller', authenticateToken, productUploadedBySell
 router.get('/getSellerProduct/:id', authenticateToken, getBrandProduct);
 router.get('/getSellerAllBrandProduct', authenticateToken, getSellerAllBrandProduct);
 router.get('/getSellerCreatedVerifiedBrands', authenticateToken, getSellerCreatedVerifiedBrands);
-router.get('/getAllSellersAllBrandProducts', getAllSellersAllBrandProducts);
+router.get('/getAllSellersAllBrandProducts/:userId', getAllSellersAllBrandProducts);
 router.get('/getProductById/:id', getProductById);
 // router.get('/getProductsByTypes/:subtypeId', getProductsByTypes);
 router.get('/getAllSellersAllBrandTypesProducts/:id', getAllSellersAllBrandTypesProducts);

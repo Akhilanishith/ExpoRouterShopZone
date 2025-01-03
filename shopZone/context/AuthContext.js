@@ -1,18 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Platform, Text } from 'react-native';
-import * as SecureStore from "expo-secure-store"
+import * as SecureStore from "expo-secure-store";
 import { usePushNotifications } from '../service/notificationService';
 
-export const AuthContext = createContext();  // Named export
+export const AuthContext = createContext(); // Named export
 
 const AuthProvider = ({ children }) => {
-  // Conditionally get expoPushToken if not on web platform
   const expoPushToken = Platform.OS !== 'web' ? usePushNotifications().expoPushToken : null;
   const [token, setToken] = useState(null);
+  const [userData, setUserData] = useState(null); // New state for extracted data
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Function to get token based on platform
   const getToken = async () => {
     if (Platform.OS === 'web') {
       return localStorage.getItem('userToken');
@@ -21,7 +20,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Function to save token based on platform
   const saveToken = async (jwtToken) => {
     if (Platform.OS === 'web') {
       localStorage.setItem('userToken', jwtToken);
@@ -30,7 +28,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Function to remove token based on platform
   const removeToken = async () => {
     if (Platform.OS === 'web') {
       localStorage.removeItem('userToken');
@@ -39,11 +36,25 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Function to decode JWT and extract payload
+  const decodeJWT = (jwtToken) => {
+    try {
+      const payload = jwtToken.split('.')[1]; // Get the payload part
+      const decodedPayload = atob(payload); // Decode base64
+      return JSON.parse(decodedPayload); // Parse JSON
+    } catch (error) {
+      console.error("Invalid JWT token:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     const loadToken = async () => {
       const storedToken = await getToken();
       if (storedToken) {
         setToken(storedToken);
+        const decodedData = decodeJWT(storedToken);
+        setUserData(decodedData); // Set extracted data
         setIsLoggedIn(true);
       }
       setIsLoading(false);
@@ -54,22 +65,26 @@ const AuthProvider = ({ children }) => {
   const login = async (jwtToken) => {
     await saveToken(jwtToken);
     setToken(jwtToken);
+    const decodedData = decodeJWT(jwtToken);
+    setUserData(decodedData); // Set extracted data
     setIsLoggedIn(true);
   };
 
   const logout = async () => {
     await removeToken();
     setToken(null);
+    setUserData(null); // Clear user data
     setIsLoggedIn(false);
   };
 
-  const authContextValue = { 
-    token, 
-    isLoggedIn, 
-    login, 
-    logout, 
-    isLoading, 
-    expoPushToken // Directly add expoPushToken here in the context
+  const authContextValue = {
+    token,
+    isLoggedIn,
+    userData, // Expose extracted data in the context
+    login,
+    logout,
+    isLoading,
+    expoPushToken,
   };
 
   return (

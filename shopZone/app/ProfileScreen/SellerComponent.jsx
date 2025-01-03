@@ -8,8 +8,8 @@ import { useRouter, useFocusEffect } from 'expo-router';
 import axios from 'axios';
 import Api from '../../service/Api.js';
 import { FolderDot, RectangleEllipsis } from 'lucide-react-native';
-import retailImg from "../../assets/images/retail14.jpeg"
-
+import retailImg from "../../assets/images/shopezone.jpg"
+import foodImg from "../../assets/images/foodzone.webp"
 
 
 const SellerComponent = () => {
@@ -95,7 +95,7 @@ const SellerComponent = () => {
         <View style={styles.container}>
             <View style={styles.grid}>
                 <TouchableOpacity style={styles.card} onPress={() => handleFoodButtonPress(foodSellerStatus)} disabled={foodSellerStatus === 'pending'}>
-                    <Image source={retailImg} style={styles.img} />
+                    <Image source={foodImg} style={styles.img} />
                     <Text style={styles.cardTitle}>Food Seller</Text>
                     <Text style={styles.cardSubtitle}>{getButtonText(foodSellerStatus)}</Text>
                 </TouchableOpacity>

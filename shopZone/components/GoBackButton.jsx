@@ -5,8 +5,16 @@ import { useRouter } from 'expo-router'
 
 const GoBackButton = () => {
     const router = useRouter()
+
+    const handleGoBack = () => {
+      if (Platform.OS === 'web') {
+        window.history.back();
+      } else {
+        router.back();
+      }
+    };
   return (
-    <TouchableOpacity onPress={()=> router.back()} style={styles.GoBack}>
+    <TouchableOpacity onPress={handleGoBack} style={styles.GoBack}>
       <ChevronLeft size={25} color={"black"}/>
     </TouchableOpacity>
   )

@@ -863,8 +863,10 @@ import Api from '../../service/Api';
 import { AuthContext } from '../../context/AuthContext';
 import useFetchCustomHook from '../../hooks/useFetchCustomHook';
 import { AntDesign } from '@expo/vector-icons';
+import useSetTitle from '../../hooks/useSetTitle';
 
 const ItemDetails = () => {
+  useSetTitle('ItemDetails');
   const { itemId } = useLocalSearchParams(); // Get the product ID from the route parameters
   const { token } = useContext(AuthContext);
   const [isInCart, setIsInCart] = useState(false); // State to track if the product is in the cart

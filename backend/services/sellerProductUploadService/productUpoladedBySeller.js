@@ -1,4 +1,4 @@
-import { Brand, Product } from '../../model/model.js';
+import { Brand, Product, Wishlist } from '../../model/model.js';
 import multer from 'multer';
 import mongoose from 'mongoose';
 
@@ -219,10 +219,12 @@ const getSellerAllBrandProduct = async (req, res) => {
   }
 };
 const getAllSellersAllBrandProducts = async (req, res) => {
+  const { userId } = req.params;
+
   try {
-    // Find all brands created by sellers (createdBy should be 'seller')
+    // Find all brands created by sellers
     const brands = await Brand.find({
-      createdBy: 'seller', // Only fetch brands created by sellers
+      createdBy: 'seller',
     }).exec();
 
     if (!brands || brands.length === 0) {
@@ -232,7 +234,7 @@ const getAllSellersAllBrandProducts = async (req, res) => {
       });
     }
 
-    // Extract brand IDs to use in the product query
+    // Extract brand IDs
     const brandIds = brands.map((brand) => brand._id);
 
     // Fetch all products associated with the found brands
@@ -248,10 +250,25 @@ const getAllSellersAllBrandProducts = async (req, res) => {
       });
     }
 
-    // Respond with the list of products for all sellers' brands
+    // If userId exists, fetch their wishlist
+    let wishlistedProductIds = [];
+    if (userId) {
+      const wishlist = await Wishlist.findOne({ user_id: userId }).exec();
+      if (wishlist) {
+        wishlistedProductIds = wishlist.items.map((item) => item.product_id.toString());
+      }
+    }
+
+    // Add isWishlisted field to each product
+    const productsWithWishlistStatus = products.map((product) => ({
+      ...product.toObject(), // Convert Mongoose document to plain object
+      isWishlisted: wishlistedProductIds.includes(product._id.toString()),
+    }));
+
+    // Respond with the updated products
     return res.status(200).json({
       success: true,
-      products,
+      products: productsWithWishlistStatus,
     });
   } catch (error) {
     console.error('Error fetching all sellers brand products:', error);
@@ -262,6 +279,7 @@ const getAllSellersAllBrandProducts = async (req, res) => {
     });
   }
 };
+
 //item deatails
 const getProductById = async (req, res) => {
   try {

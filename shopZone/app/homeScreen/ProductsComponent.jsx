@@ -98,8 +98,8 @@ import useFetchCustomHook from "../../hooks/useFetchCustomHook";
 import Api from "../../service/Api";
 
 const ProductsComponent = () => {
-  const { token } = useContext(AuthContext);
-  const { data, loading, error } = useFetchCustomHook(`${Api.getAllSellersAllBrandProducts}`, null);
+  const { userData } = useContext(AuthContext);
+  const { data, loading, error } = useFetchCustomHook(`${Api.getAllSellersAllBrandProducts}/${userData.userId}`, null);
 
   if (loading) {
     return <ActivityIndicator />;

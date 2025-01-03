@@ -257,7 +257,7 @@ const NavBar = ({}) => {
   ];
 
   useEffect(() => {
-    setIsLargeScreen(width > 600);
+    setIsLargeScreen(width > 700);
   }, [width]);
 
   const toggleModal = () => setModalVisible(!isModalVisible);
@@ -409,7 +409,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "#f4511e",
+    // backgroundColor: "#f4511e",
+    backgroundColor: "#bab6b4",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,

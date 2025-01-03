@@ -2,7 +2,7 @@ import express from 'express';
 import { phoneValidation, updateToken, verifyOtp } from '../services/UserAuthService/userAuthService.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
 import { addProductToCart, getCartAddedProduct, removeProductFromCart, updateCartQuantity } from '../services/UserAuthService/userCartService.js';
-import { addProductToWishlist, getWishlistAddedProducts, removeProductFromWishlist } from '../services/UserAuthService/userWishlistService.js';
+import { toggleWishlist, getWishlistAddedProducts } from '../services/UserAuthService/userWishlistService.js';
 import { getUserDetails } from '../services/UserAuthService/userLoginnumber.js';
 import { addDeliveryAddress, deleteAddress, getDeliveryAddress, updateAddress } from '../services/UserAuthService/orderAddNewAddress.js';
 
@@ -17,9 +17,8 @@ router.post('/addProductToCart',authenticateToken, addProductToCart);
 router.get('/getCartAddedProduct',authenticateToken, getCartAddedProduct);
 router.delete('/removeProductFromCart',authenticateToken, removeProductFromCart);
 router.post('/updateCartQuantity',authenticateToken, updateCartQuantity);
-router.post('/addProductToWishlist',authenticateToken, addProductToWishlist);
+router.post('/toggleWishlist',authenticateToken, toggleWishlist);
 router.get('/getWishlistAddedProducts',authenticateToken, getWishlistAddedProducts);
-router.delete('/removeProductFromWishlist',authenticateToken, removeProductFromWishlist);
 
 
 router.get('/getUserDetails', authenticateToken, getUserDetails);
