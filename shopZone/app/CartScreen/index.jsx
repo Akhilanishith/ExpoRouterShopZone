@@ -250,7 +250,7 @@ export default function CartScreen() {
     }
   }, [data]);
 
-  // Handle removal of item from carttttttttt
+  // Handle removal of item from carttttttttttttt
   const handleRemoveFromCart = async (productId) => {
     try {
       const response = await axios.delete(Api.removeProductFromCart, {
